@@ -1,0 +1,111 @@
+@import "~bulma/bulma";
+
+.main-content {
+  padding: 20px;
+}
+
+.suit-icon {
+  &.hearts, &.diamonds {
+    color: red;
+  }
+}
+
+.playing-card {
+  user-select: none;
+  -webkit-user-select: none;
+  border: 1px solid $primary;
+  border-radius: 3px;
+  padding: 4px 4px  16px;
+  min-width: 43px;
+  min-height: 46px;
+  display: inline-block;
+  margin-left: 2px;
+  margin-bottom: 2px;
+  .suit-icon {
+    margin-left: 2px;
+  }
+  &.face-down {
+    background-color: burlywood;
+  }
+  &.invisible {
+    visibility: hidden;
+  }
+}
+
+.player-summary {
+  .points, .bid, .trick-count {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .points {
+    margin-left: 5px;
+    color: $black;
+    background-color: lighten($info, 40%);
+  }
+
+  .bid {
+    color: $info;
+    background-color: lighten($info, 40%);
+  }
+
+  .trick-count {
+    &.pending {
+      color: $grey;
+      background-color: lighten($grey, 40%);
+    }
+    &.made {
+      color: $green;
+      background-color: lighten($green, 40%);
+    }
+    &.set {
+      color: $danger;
+      background-color: lighten($danger, 30%);
+    }
+  }
+  &.active {
+    background-color: lighten($primary, 55%);
+  }
+}
+
+.current-player {
+  .player-hand {
+    .playing-card {
+      &.selectable {
+        cursor: pointer;
+
+        &:hover {
+          background-color: $light;
+
+          &.selected {
+            background-color: lighten($primary, 50%);
+          }
+        }
+      }
+
+      &.selected {
+        background-color: lighten($primary, 50%);
+      }
+    }
+  }
+  .buttons {
+    margin-top: 10px;
+    .bid-button {
+      font-size: 14px;
+      min-width: 45px;
+    }
+  }
+}
+
+.play-area {
+  .level-left {
+    .playing-card {
+      margin-right: 10px;
+    }
+  }
+  .level-right {
+    .playing-card {
+      margin-left: 10px;
+    }
+  }
+}
