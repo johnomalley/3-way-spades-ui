@@ -1,6 +1,6 @@
-import classNames = require('classnames')
 import * as React from 'react'
 import { Suit } from './types'
+import classNames = require('classnames')
 
 const characters = [0x2666, 0x2663, 0x2665, 0x2660].map(_ => String.fromCharCode(_))
 

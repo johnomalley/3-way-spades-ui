@@ -26,23 +26,29 @@ const rankSymbol = (rank: number): string => {
 }
 
 export default class Card extends React.PureComponent<Props> {
-  onClick = (clickCount: number = 1) => {
-    this.props.onClick!(this.props.card, clickCount)
+  onClick = () => {
+    this.onClickDelegate(1)
   }
 
   onDoubleClick = () => {
-    this.onClick(2)
+    this.onClickDelegate(2)
+  }
+
+  onClickDelegate = (clickCount: number) => {
+    this.props.onClick!(this.props.card, clickCount)
   }
 
   render (): React.ReactNode {
     const { card, className, onClick, selected } = this.props
     return (
-      <div className={classNames('playing-card', className, { selectable: Boolean(onClick), selected })}
-           onClick={onClick ? this.onClick : undefined} onDoubleClick={onClick ? this.onDoubleClick : undefined}>
+      <div
+        className={classNames('playing-card', className, { selectable: Boolean(onClick), selected })}
+        onClick={onClick ? this.onClick : undefined} onDoubleClick={onClick ? this.onDoubleClick : undefined}
+      >
         <span className='rank'>
           {rankSymbol(card.rank)}
         </span>
-        <SuitSymbol suit={card.suit}/>
+        <SuitSymbol suit={card.suit} />
       </div>
     )
   }

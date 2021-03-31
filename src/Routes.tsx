@@ -8,10 +8,10 @@ export default class Routes extends React.Component<{}> {
   render () {
     return (
       <Switch>
-        <Route path='/setup' component={SetupViewContainer}/>
-        <Route path='/games/:id' component={GameContainer}/>
-        <Route path='/games' component={GameListViewContainer}/>
-        <Redirect to='/games'/>
+        <Route path='/setup' component={SetupViewContainer} />
+        <Route path='/games/:id' component={GameContainer} />
+        <Route path='/games' component={GameListViewContainer} />
+        <Redirect to='/games' />
       </Switch>
     )
   }

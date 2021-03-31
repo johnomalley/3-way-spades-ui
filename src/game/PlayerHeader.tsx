@@ -1,16 +1,15 @@
-import last = require('lodash/last')
 import * as React from 'react'
 import { HandPhase, PlayerView } from './gameReducer'
 import bidString from './bidString'
-import classNames = require('classnames')
 import WaitSpinner from '../common/WaitSpinner'
+import last = require('lodash/last')
+import classNames = require('classnames')
 
 type Props = Readonly<{
   playerView: PlayerView
   busy?: boolean
   playerNumber: number
 }>
-
 
 export default class PlayerHeader extends React.PureComponent<Props> {
   render (): React.ReactNode {
@@ -53,14 +52,16 @@ export default class PlayerHeader extends React.PureComponent<Props> {
     const headerClass = classNames(
       'card-header',
       'player-summary',
-      { active: playerView.currentPlayerNumber === playerNumber}
+      { active: playerView.currentPlayerNumber === playerNumber }
     )
 
     return (
       <div className={headerClass}>
         <div className='card-header-title level'>
           <div className='level-left'>
-            {player.name}
+            <div className='level-item'>
+              {player.name}
+            </div>
             {
               player.points === 0 ? undefined : (
                 <div className='level-item points'>{String(player.points)}</div>
@@ -79,10 +80,10 @@ export default class PlayerHeader extends React.PureComponent<Props> {
               )
             }
           </div>
-            {
+          {
               busy ? (
                 <div className='level-right'>
-                  <WaitSpinner className='level-item'/>
+                  <WaitSpinner className='level-item' />
                 </div>
               ) : undefined
             }

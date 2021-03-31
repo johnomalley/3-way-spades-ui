@@ -1,5 +1,7 @@
 export const gameGet = 'game/get'
 
+export const gameShowCards = 'game/show-cards'
+
 export const gameSelectCard = 'game/select-card'
 
 export const gameBid = 'game/bid'
@@ -16,6 +18,7 @@ export const gameError = 'game/error'
 
 export const gameActions = <const>[
   gameGet,
+  gameShowCards,
   gameSelectCard,
   gameBid,
   gamePlay,

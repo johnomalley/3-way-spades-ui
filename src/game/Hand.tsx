@@ -1,10 +1,10 @@
-import groupBy = require('lodash/groupBy')
 import { Dispatch } from 'redux'
 import * as React from 'react'
 import { Card as CardType, HandPhase, PlayerView } from './gameReducer'
 import Card from './Card'
 import { gameSelectCard } from './actions'
 import { Suit } from '../common/types'
+import groupBy = require('lodash/groupBy')
 
 type Props = Readonly<{
   playerView: PlayerView
@@ -40,10 +40,10 @@ export default class Hand extends React.PureComponent<Props> {
               {
                 cardsBySuit[suit] ? (
                   cardsBySuit[suit].map(card =>
-                    <Card key={card.rank} card={card} selected={card === selectedCard} onClick={onClick}/>
+                    <Card key={card.rank} card={card} selected={card === selectedCard} onClick={onClick} />
                   )
                 ) : (
-                  <div className='playing-card invisible'/>
+                  <div className='playing-card invisible' />
                 )
               }
             </div>

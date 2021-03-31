@@ -20,9 +20,9 @@ export class App extends React.PureComponent<Props> {
     const { history } = this.props
     return (
       <ConnectedRouter history={history}>
-        <Navbar currentPath={this.props.currentPath} dispatch={this.props.dispatch} push={this.props.push}/>
+        <Navbar currentPath={this.props.currentPath} dispatch={this.props.dispatch} push={this.props.push} />
         <div className='main-content'>
-          <Routes/>
+          <Routes />
         </div>
       </ConnectedRouter>
     )

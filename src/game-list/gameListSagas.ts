@@ -5,7 +5,7 @@ import push from '../common/push'
 
 const putError = (error: Error) => put({ type: gameListError, payload: error })
 
-export function * getGames () {
+export function * getGames (): any {
   try {
     const games = yield call(api.get, 'games/active')
     yield put({ type: gameListUpdate, payload: games })

@@ -8,7 +8,6 @@ type Props = Readonly<{
   card?: CardType
 }>
 
-
 export default class PlayAreaCard extends React.PureComponent<Props> {
   render (): React.ReactNode {
     const { side, playerName, card } = this.props
@@ -16,11 +15,11 @@ export default class PlayAreaCard extends React.PureComponent<Props> {
       <div className='player-name'>
         {playerName}
       </div>
-    ): undefined
+    ) : undefined
     const cardNode = card ? (
-      <Card card={card} selected={false}/>
+      <Card card={card} selected={false} />
     ) : (
-      <div className='playing-card'/>
+      <div className='playing-card' />
     )
 
     return (

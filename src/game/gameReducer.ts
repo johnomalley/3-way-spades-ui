@@ -1,4 +1,3 @@
-import last = require('lodash/last')
 import { Suit } from '../common/types'
 import nullAction from '../store/nullAction'
 import { Action } from '../store/types'
@@ -13,6 +12,7 @@ import {
   gameUpdate,
   gameUpdateBid
 } from './actions'
+import last = require('lodash/last')
 
 export type Card = Readonly<{
   suit: Suit
@@ -46,11 +46,11 @@ export type PlayerView = Readonly<{
     bid?: number
     trickCount: number
   }>>
+  cardsVisible: boolean
   cardsInHand: ReadonlyArray<Card>
   cardsPlayed: ReadonlyArray<Card>
   tricks: ReadonlyArray<Trick>
 }>
-
 
 export type BidRange = Readonly<{
   min: number
@@ -78,7 +78,7 @@ const initialState: GameState = {
   busy: false
 }
 
-const scrollBidRange = ({  min, max }: BidRange, delta: number) => ({
+const scrollBidRange = ({ min, max }: BidRange, delta: number) => ({
   min: min + delta,
   max: max + delta
 })

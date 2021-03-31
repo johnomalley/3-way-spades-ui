@@ -20,7 +20,7 @@ class SetupView extends React.PureComponent<Props> {
     return (
       <div className='columns'>
         <div className='column is-half'>
-          <SetupForm onChange={this.onFormFieldChange} {...{ apiKey, playerId }}/>
+          <SetupForm onChange={this.onFormFieldChange} {...{ apiKey, playerId }} />
         </div>
       </div>
     )

@@ -18,12 +18,11 @@ export default (history: History): Store<State> => {
     router: connectRouter(history),
     history: () => history
   })
-  const store = createStore(rootReducer, applyMiddleware(...Object.values(middleware)))
+  const store = createStore(rootReducer, applyMiddleware(...Object.values(middleware) as any))
   changePoller.init({
     dispatch: store.dispatch,
     getState: store.getState
   })
   middleware.saga.run(rootSaga)
   return store
-
 }

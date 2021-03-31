@@ -18,7 +18,7 @@ export default ({ element, render, history }: Args) => {
 
   const rootContent = (
     <Provider store={store}>
-      <AppContainer/>
+      <AppContainer />
     </Provider>
   )
 

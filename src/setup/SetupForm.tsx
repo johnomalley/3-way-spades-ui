@@ -20,26 +20,28 @@ export default class SetupForm extends React.PureComponent<Props> {
       <div className='card'>
         <div className='card-header'>
           <div className='card-header-title'>Setup</div>
-          <div className='card-header-icon'><i className="fas fa-cog"/></div>
+          <div className='card-header-icon'><i className='fas fa-cog' /></div>
         </div>
         <div className='card-content'>
           <div className='field'>
             <label className='label'>API Key</label>
             <div className='control'>
-              <input className='input'
-                     type='text'
-                     value={apiKey || ''}
-                     onChange={this.onApiKeyChanged}
+              <input
+                className='input'
+                type='text'
+                value={apiKey || ''}
+                onChange={this.onApiKeyChanged}
               />
             </div>
           </div>
           <div className='field'>
             <label className='label'>Player ID</label>
             <div className='control'>
-              <input className='input'
-                     type='text'
-                     value={playerId || ''}
-                     onChange={this.onPlayerIdChanged}
+              <input
+                className='input'
+                type='text'
+                value={playerId || ''}
+                onChange={this.onPlayerIdChanged}
               />
             </div>
           </div>

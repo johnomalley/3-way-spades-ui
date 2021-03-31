@@ -1,4 +1,3 @@
-import range = require('lodash/range')
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { DefaultDispatchProps } from '../common/types'
@@ -12,6 +11,7 @@ import CurrentPlayerView from './CurrentPlayerView'
 import OpponentView, { OpponentViewProps } from './OpponentView'
 import PlayArea from './PlayArea'
 import changePoller from './changePoller'
+import range = require('lodash/range')
 
 type StateProps = GameState & Readonly<{
   credentialsValid: boolean
@@ -47,25 +47,27 @@ class GameContainer extends React.PureComponent<Props> {
       <div className='game'>
         {
           playerView ? (
-            <React.Fragment>
+            <>
               <div className='columns'>
-                <CurrentPlayerView playerView={playerView}
-                                   busy={busy}
-                                   bidRange={bidRange}
-                                   bid={bid}
-                                   selectedCard={selectedCard}
-                                   dispatch={dispatch}/>
-                <PlayArea playerView={playerView}/>
+                <CurrentPlayerView
+                  playerView={playerView}
+                  busy={busy}
+                  bidRange={bidRange}
+                  bid={bid}
+                  selectedCard={selectedCard}
+                  dispatch={dispatch}
+                />
+                <PlayArea playerView={playerView} />
               </div>
               <div className='columns'>
                 {
                   getOpponentProps(playerView).map(props =>
-                    <OpponentView key={props.playerNumber} {...props}/>
+                    <OpponentView key={props.playerNumber} {...props} />
                   )
                 }
               </div>
-            </React.Fragment>
-          ) : <WaitSpinner/>
+            </>
+          ) : <WaitSpinner />
         }
       </div>
     )

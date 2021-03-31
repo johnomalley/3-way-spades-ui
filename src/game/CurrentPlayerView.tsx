@@ -5,8 +5,8 @@ import Hand from './Hand'
 import { gamePlay } from './actions'
 import { Suit } from '../common/types'
 import PlayerHeader from './PlayerHeader'
-import last = require('lodash/last')
 import BidButtons from './BidButtons'
+import last = require('lodash/last')
 
 type Props = Readonly<{
   playerView: PlayerView
@@ -28,7 +28,7 @@ const getSmallestClub = (cards: ReadonlyArray<Card>): Card | undefined => {
 }
 
 const canPlayOnFirstTrick = (cards: ReadonlyArray<Card>, card: Card) => {
-  let smallest = getSmallestClub(cards)
+  const smallest = getSmallestClub(cards)
   if (smallest) {
     return smallest === card
   } else {
@@ -52,7 +52,6 @@ const canPlayCard = (playerView: PlayerView, card: Card): boolean => {
       return card.suit !== Suit.Spades || spadesBroken(tricks) || hasOnlySpades(cards)
     } else {
       const { suit } = trick.cards[0]!
-      console.log(JSON.stringify(cards))
       return suit === card.suit || cards.every(_ => _.suit !== suit)
     }
   }
@@ -85,18 +84,22 @@ export default class CurrentPlayerView extends React.PureComponent<Props> {
     return (
       <div className='column is-half current-player'>
         <div className='card'>
-          <PlayerHeader playerView={playerView} busy={busy} playerNumber={playerView.playerNumber}/>
+          <PlayerHeader playerView={playerView} busy={busy} playerNumber={playerView.playerNumber} />
           <div className='card-content'>
-            <Hand playerView={playerView} selectedCard={selectedCard} playCard={playCard} dispatch={dispatch}/>
+            <Hand playerView={playerView} selectedCard={selectedCard} playCard={playCard} dispatch={dispatch} />
             <div className='buttons'>
               {
                 playerView.phase === HandPhase.Bidding ? (
-                  <BidButtons playerView={playerView} busy={busy}
-                    bidRange={bidRange} bid={bid} dispatch={dispatch}/>
+                  <BidButtons
+                    playerView={playerView} busy={busy}
+                    bidRange={bidRange} bid={bid} dispatch={dispatch}
+                  />
                 ) : (
-                  <button className='button is-primary'
-                          disabled={!playEnabled}
-                          onClick={this.playSelectedCard}>
+                  <button
+                    className='button is-primary'
+                    disabled={!playEnabled}
+                    onClick={this.playSelectedCard}
+                  >
                     Play
                   </button>
                 )

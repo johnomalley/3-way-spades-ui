@@ -34,8 +34,8 @@ class GameListViewContainer extends React.PureComponent<Props> {
     return (
       <MainView error={error} title={title}>
         {
-          busy ? <WaitSpinner/> : (
-            <GameList games={games}/>
+          busy ? <WaitSpinner /> : (
+            <GameList games={games} />
           )
         }
         <div className='buttons'>

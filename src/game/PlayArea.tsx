@@ -1,7 +1,7 @@
-import last = require('lodash/last')
 import * as React from 'react'
 import { Card, PlayerView, Trick } from './gameReducer'
 import PlayAreaCard from './PlayAreaCard'
+import last = require('lodash/last')
 
 type Props = Readonly<{
   playerView: PlayerView
@@ -33,16 +33,20 @@ export default class PlayArea extends React.PureComponent<Props> {
         <div className='card'>
           <div className='card-content'>
             <div className='level current-player-area'>
-              <PlayAreaCard card={cardsByPlayerNumber[playerNumber]}/>
+              <PlayAreaCard card={cardsByPlayerNumber[playerNumber]} />
             </div>
             <div className='level opponent-area'>
               <div className='level-left'>
-                <PlayAreaCard side='left' playerName={players[leftPlayerNumber].name}
-                              card={cardsByPlayerNumber[leftPlayerNumber]}/>
+                <PlayAreaCard
+                  side='left' playerName={players[leftPlayerNumber].name}
+                  card={cardsByPlayerNumber[leftPlayerNumber]}
+                />
               </div>
               <div className='level-right'>
-                <PlayAreaCard side='right' playerName={players[rightPlayerNumber].name}
-                              card={cardsByPlayerNumber[rightPlayerNumber]}/>
+                <PlayAreaCard
+                  side='right' playerName={players[rightPlayerNumber].name}
+                  card={cardsByPlayerNumber[rightPlayerNumber]}
+                />
               </div>
             </div>
           </div>

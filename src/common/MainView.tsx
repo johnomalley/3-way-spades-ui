@@ -15,7 +15,7 @@ export default class MainView extends React.PureComponent<Props> {
         <div className='column is-half'>
           <h4>{title}</h4>
           {
-            error ? <ErrorOverlay error={error}/> : children
+            error ? <ErrorOverlay error={error} /> : children
           }
         </div>
       </div>

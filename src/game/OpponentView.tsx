@@ -14,8 +14,8 @@ export default class OpponentView extends React.PureComponent<OpponentViewProps>
     return (
       <div className='column is-half opponent'>
         <div className='card'>
-          <PlayerHeader playerView={playerView} playerNumber={playerNumber}/>
-          <OpponentCardsView playerView={playerView} playerNumber={playerNumber}/>
+          <PlayerHeader playerView={playerView} playerNumber={playerNumber} />
+          <OpponentCardsView playerView={playerView} playerNumber={playerNumber} />
         </div>
       </div>
     )

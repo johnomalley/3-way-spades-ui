@@ -11,9 +11,9 @@ export default class GameList extends React.PureComponent<Props> {
     return (
       <table className='table'>
         <tbody>
-        {
+          {
           this.props.games.map(game =>
-            <GameListRow key={game.id} game={game}/>
+            <GameListRow key={game.id} game={game} />
           )
         }
         </tbody>

@@ -9,6 +9,7 @@ type Config = Readonly<{
 }>
 
 interface PollerState {
+  running: boolean
   timeout: number
   ticks: number
   lastTimestamp: number
@@ -67,7 +68,7 @@ const poll = async () => {
 }
 
 const pollNext = () => {
-  pollerState.timeout = setTimeout(poll, getCurrentDelay())
+  pollerState.timeout = window.setTimeout(poll, getCurrentDelay())
 }
 
 const start = () => {

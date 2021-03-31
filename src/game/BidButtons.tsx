@@ -1,10 +1,10 @@
-import range = require('lodash/range')
-
 import * as React from 'react'
 import { Dispatch } from 'redux'
 import { BidRange, PlayerView } from './gameReducer'
+import { gameBid, gameScrollBid, gameShowCards, gameUpdateBid } from './actions'
+
+import range = require('lodash/range')
 import classNames = require('classnames')
-import { gameBid, gameScrollBid, gameUpdateBid } from './actions'
 
 type Props = Readonly<{
   playerView: PlayerView
@@ -13,7 +13,6 @@ type Props = Readonly<{
   bidRange: BidRange
   dispatch: Dispatch
 }>
-
 
 export default class BidButtons extends React.PureComponent<Props> {
   scrollDown = () => {
@@ -36,31 +35,51 @@ export default class BidButtons extends React.PureComponent<Props> {
     this.props.dispatch({ type: gameBid, payload: this.props.bid })
   }
 
+  showCards = () => {
+    this.props.dispatch({ type: gameShowCards })
+  }
+
   render (): React.ReactNode {
     const { bidRange: { min, max }, busy, bid, playerView } = this.props
     const allDisabled = busy || playerView.playerNumber !== playerView.currentPlayerNumber
     return (
-      <React.Fragment>
-        <button className='button bid-button' disabled={allDisabled || min === 0} onClick={this.scrollDown}>
-          -
-        </button>
+      <>
         {
-          range(min, max + 1).map(i =>
-            <button key={i} disabled={allDisabled}
+          playerView.cardsVisible ? (
+            <>
+              <button className='button bid-button' disabled={allDisabled || min === 0} onClick={this.scrollDown}>
+                -
+              </button>
+              {
+                range(min, max + 1).map(i =>
+                  <button
+                    key={i} disabled={allDisabled}
                     className={classNames('button', 'bid-button', { 'is-info': bid === i })}
-                    onClick={bid === i ? undefined : () => this.selectBid(i)}>
-              {i === 0 ? 'N' : String(i)}
-            </button>
+                    onClick={bid === i ? undefined : () => this.selectBid(i)}
+                  >
+                    {i === 0 ? 'N' : String(i)}
+                  </button>
+                )
+              }
+              <button className='button bid-button' disabled={allDisabled || max === 17} onClick={this.scrollUp}>
+                +
+              </button>
+            </>
+          ) : (
+            <>
+              <button className='button bid-button' disabled={allDisabled} onClick={() => this.selectBid(-1)}>
+                Double Nil
+              </button>
+              <button className='button bid-button' disabled={busy} onClick={this.showCards}>
+                Show Cards
+              </button>
+            </>
           )
         }
-        <button className='button bid-button' disabled={allDisabled || max === 17} onClick={this.scrollUp}>
-          +
-        </button>
         <button className='button is-primary' disabled={allDisabled || bid === undefined} onClick={this.dispatchBid}>
           Bid
         </button>
-
-      </React.Fragment>
+      </>
     )
   }
 }

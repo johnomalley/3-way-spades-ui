@@ -1,9 +1,9 @@
-import sortBy = require('lodash/sortBy')
-import moment = require('moment')
-import classNames = require('classnames')
 import * as React from 'react'
 import { Game } from './gameListReducer'
 import { Link } from 'react-router-dom'
+import sortBy = require('lodash/sortBy')
+import moment = require('moment')
+import classNames = require('classnames')
 
 type Props = Readonly<{
   game: Game
@@ -21,7 +21,7 @@ export default class GameListRow extends React.PureComponent<Props> {
         </td>
         {
           sortBy(game.players, _ => -1 * _.points).map((player, i) =>
-            <td key={player.id} className={classNames({ winner: i === 0})}>
+            <td key={player.id} className={classNames({ winner: i === 0 })}>
               {`${player.name}: ${player.points}`}
             </td>
           )
