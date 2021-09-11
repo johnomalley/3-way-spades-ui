@@ -1,7 +1,7 @@
-import * as React from 'react'
+import React from 'react'
 import { HandPhase, PlayerView } from './gameReducer'
-import last = require('lodash/last')
-import range = require('lodash/range')
+import last from 'lodash/last'
+import range from 'lodash/range'
 
 export type Props = Readonly<{
   playerView: PlayerView
@@ -20,18 +20,15 @@ const getCardCount = (playerView: PlayerView, playerNumber: number) => {
   }
 }
 
-export default class OpponentCardsView extends React.PureComponent<Props> {
-  render (): React.ReactNode {
-    const { playerView, playerNumber } = this.props
-    const cardCount = getCardCount(playerView, playerNumber)
-    return (
-      <div className='card-content'>
-        {
-          cardCount === 0
-            ? <div className='playing-card invisible' />
-            : range(cardCount).map(i => <div key={i} className='playing-card face-down' />)
-        }
-      </div>
-    )
-  }
+export default function OpponentCardsView ({ playerView, playerNumber }: Props) {
+  const cardCount = getCardCount(playerView, playerNumber)
+  return (
+    <div className='card-content'>
+      {
+        cardCount === 0
+          ? <div className='playing-card invisible' />
+          : range(cardCount).map(i => <div key={i} className='playing-card face-down' />)
+      }
+    </div>
+  )
 }

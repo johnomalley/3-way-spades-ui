@@ -16,7 +16,7 @@ export const gameScrollBid = 'game/scroll-bid'
 
 export const gameError = 'game/error'
 
-export const gameActions = <const>[
+export const gameActions: readonly string[] = [
   gameGet,
   gameShowCards,
   gameSelectCard,

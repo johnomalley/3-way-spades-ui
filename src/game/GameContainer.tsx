@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { DefaultDispatchProps } from '../common/types'
 import mapDispatchToProps from '../common/mapDispatchToProps'
@@ -11,7 +11,7 @@ import CurrentPlayerView from './CurrentPlayerView'
 import OpponentView, { OpponentViewProps } from './OpponentView'
 import PlayArea from './PlayArea'
 import changePoller from './changePoller'
-import range = require('lodash/range')
+import range from 'lodash/range'
 
 type StateProps = GameState & Readonly<{
   credentialsValid: boolean
@@ -19,7 +19,7 @@ type StateProps = GameState & Readonly<{
 
 type Props = StateProps & DefaultDispatchProps & RouteComponentProps<{ id: string }>
 
-const getOpponentProps = (playerView?: PlayerView): ReadonlyArray<OpponentViewProps> => {
+const getOpponentProps = (playerView?: PlayerView): readonly OpponentViewProps[] => {
   if (playerView) {
     const playerNumbers = range(1, 3).map(n => (playerView.playerNumber + n) % playerView.players.length)
     return playerNumbers.map(playerNumber => ({
@@ -31,22 +31,21 @@ const getOpponentProps = (playerView?: PlayerView): ReadonlyArray<OpponentViewPr
   }
 }
 
-class GameContainer extends React.PureComponent<Props> {
-  componentDidMount (): void {
-    this.props.dispatch({ type: gameGet, payload: this.props.match.params.id })
+function GameContainer ({ playerView, busy, selectedCard, bidRange, bid, dispatch, match }: Props) {
+  useEffect(() => {
+    dispatch({ type: gameGet, payload: match.params.id })
     changePoller.start()
-  }
 
-  componentWillUnmount (): void {
-    changePoller.stop()
-  }
+    return () => {
+      changePoller.stop()
+    }
+  }, [])
 
-  render (): React.ReactNode {
-    const { playerView, busy, selectedCard, bidRange, bid, dispatch } = this.props
-    return (
-      <div className='game'>
-        {
-          playerView ? (
+  return (
+    <div className='game'>
+      {
+        playerView
+          ? (
             <>
               <div className='columns'>
                 <CurrentPlayerView
@@ -67,11 +66,11 @@ class GameContainer extends React.PureComponent<Props> {
                 }
               </div>
             </>
-          ) : <WaitSpinner />
-        }
-      </div>
-    )
-  }
+            )
+          : <WaitSpinner />
+      }
+    </div>
+  )
 }
 
 export const mapStateToProps = ({ setup: { credentialsValid }, game }: State): StateProps => ({

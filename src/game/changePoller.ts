@@ -68,6 +68,7 @@ const poll = async () => {
 }
 
 const pollNext = () => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   pollerState.timeout = window.setTimeout(poll, getCurrentDelay())
 }
 

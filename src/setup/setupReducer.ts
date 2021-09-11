@@ -27,7 +27,7 @@ export default (state: SetupState = initialState, action: Action = nullAction): 
     case credentialsUpdate:
       return validateCredentials({
         ...state,
-        ...action.payload!
+        ...action.payload
       })
     default:
       return state

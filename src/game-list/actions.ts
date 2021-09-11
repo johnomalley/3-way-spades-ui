@@ -6,7 +6,7 @@ export const gameListError = 'game-list/error'
 
 export const gameListNew = 'game-list/new'
 
-export const gameListActions = <const>[
+export const gameListActions: readonly string[] = [
   gameListGet,
   gameListUpdate,
   gameListError,

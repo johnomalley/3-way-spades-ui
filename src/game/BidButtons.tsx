@@ -1,10 +1,9 @@
-import * as React from 'react'
+import React from 'react'
 import { Dispatch } from 'redux'
 import { BidRange, PlayerView } from './gameReducer'
 import { gameBid, gameScrollBid, gameShowCards, gameUpdateBid } from './actions'
-
-import range = require('lodash/range')
-import classNames = require('classnames')
+import range from 'lodash/range'
+import classNames from 'classnames'
 
 type Props = Readonly<{
   playerView: PlayerView
@@ -14,40 +13,23 @@ type Props = Readonly<{
   dispatch: Dispatch
 }>
 
-export default class BidButtons extends React.PureComponent<Props> {
-  scrollDown = () => {
-    this.scroll(-1)
+export default function BidButtons ({ playerView, busy, bid, bidRange: { min, max }, dispatch }: Props) {
+  const scroll = (delta: number) => {
+    dispatch({ type: gameScrollBid, payload: delta })
   }
 
-  scrollUp = () => {
-    this.scroll(1)
+  const selectBid = (bid: number) => {
+    dispatch({ type: gameUpdateBid, payload: bid })
   }
 
-  scroll (delta: number) {
-    this.props.dispatch({ type: gameScrollBid, payload: delta })
-  }
-
-  selectBid (bid: number) {
-    this.props.dispatch({ type: gameUpdateBid, payload: bid })
-  }
-
-  dispatchBid = () => {
-    this.props.dispatch({ type: gameBid, payload: this.props.bid })
-  }
-
-  showCards = () => {
-    this.props.dispatch({ type: gameShowCards })
-  }
-
-  render (): React.ReactNode {
-    const { bidRange: { min, max }, busy, bid, playerView } = this.props
-    const allDisabled = busy || playerView.playerNumber !== playerView.currentPlayerNumber
-    return (
-      <>
-        {
-          playerView.cardsVisible ? (
+  const allDisabled = busy || playerView.playerNumber !== playerView.currentPlayerNumber
+  return (
+    <>
+      {
+        playerView.cardsVisible
+          ? (
             <>
-              <button className='button bid-button' disabled={allDisabled || min === 0} onClick={this.scrollDown}>
+              <button className='button bid-button' disabled={allDisabled || min === 0} onClick={() => scroll(-1)}>
                 -
               </button>
               {
@@ -55,31 +37,33 @@ export default class BidButtons extends React.PureComponent<Props> {
                   <button
                     key={i} disabled={allDisabled}
                     className={classNames('button', 'bid-button', { 'is-info': bid === i })}
-                    onClick={bid === i ? undefined : () => this.selectBid(i)}
+                    onClick={bid === i ? undefined : () => selectBid(i)}
                   >
                     {i === 0 ? 'N' : String(i)}
                   </button>
                 )
               }
-              <button className='button bid-button' disabled={allDisabled || max === 17} onClick={this.scrollUp}>
+              <button className='button bid-button' disabled={allDisabled || max === 17} onClick={() => scroll(1)}>
                 +
               </button>
             </>
-          ) : (
+            )
+          : (
             <>
-              <button className='button bid-button' disabled={allDisabled} onClick={() => this.selectBid(-1)}>
+              <button className='button bid-button' disabled={allDisabled} onClick={() => selectBid(-1)}>
                 Double Nil
               </button>
-              <button className='button bid-button' disabled={busy} onClick={this.showCards}>
+              <button className='button bid-button' disabled={busy} onClick={() => dispatch({ type: gameShowCards })}>
                 Show Cards
               </button>
             </>
-          )
-        }
-        <button className='button is-primary' disabled={allDisabled || bid === undefined} onClick={this.dispatchBid}>
-          Bid
-        </button>
-      </>
-    )
-  }
+            )
+      }
+      <button className='button is-primary'
+              disabled={allDisabled || bid === undefined}
+              onClick={() => dispatch({ type: gameBid, payload: bid })}>
+        Bid
+      </button>
+    </>
+  )
 }

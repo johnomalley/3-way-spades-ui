@@ -4,7 +4,7 @@ import { credentialsInit, credentialsSave, credentialsUpdate } from './actions'
 import getCredentials from './getCredentials'
 import { Credentials } from './setupReducer'
 import api from '../api/api'
-import isString = require('lodash/isString')
+import isString from 'lodash/isString'
 
 const asString = (propertyName: string, value: any) =>
   value && isString(value) ? { [propertyName]: value } : {}

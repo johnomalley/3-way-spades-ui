@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import { DefaultDispatchProps } from '../common/types'
 import GameList from './GameList'
 import { GameListState } from './gameListReducer'
@@ -15,37 +15,36 @@ type StateProps = GameListState & Readonly<{
 
 type Props = StateProps & DefaultDispatchProps
 
-class GameListViewContainer extends React.PureComponent<Props> {
-  createNewGame = () => {
-    this.props.dispatch({ type: gameListNew })
-  }
-
-  componentDidMount (): void {
-    if (this.props.credentialsValid) {
-      this.props.dispatch({ type: gameListGet })
+function GameListViewContainer ({ games, busy, error, credentialsValid, dispatch, push }: Props) {
+  useEffect(() => {
+    if (credentialsValid) {
+      dispatch({ type: gameListGet })
     } else {
-      this.props.push('/setup')
+      push('/setup')
     }
+  }, [])
+
+  const createNewGame = () => {
+    dispatch({ type: gameListNew })
   }
 
-  render (): React.ReactNode {
-    const { games, busy, error } = this.props
-    const title = 'Active Games' + (busy ? '' : `(${games.length})`)
-    return (
+  const title = 'Active Games' + (busy ? '' : `(${games.length})`)
+  return (
       <MainView error={error} title={title}>
         {
-          busy ? <WaitSpinner /> : (
+          busy
+            ? <WaitSpinner />
+            : (
             <GameList games={games} />
-          )
+              )
         }
         <div className='buttons'>
-          <button className='button is-primary' onClick={this.createNewGame}>
+          <button className='button is-primary' onClick={createNewGame}>
             New Game
           </button>
         </div>
       </MainView>
-    )
-  }
+  )
 }
 
 export const mapStateToProps = ({ setup: { credentialsValid }, gameList: { games, busy, error } }: State): StateProps => ({

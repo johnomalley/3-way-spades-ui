@@ -9,7 +9,8 @@
     "jsx": "react",
     "resolveJsonModule": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "esModuleInterop": true
   },
   "include": [
     "./src/**/*"

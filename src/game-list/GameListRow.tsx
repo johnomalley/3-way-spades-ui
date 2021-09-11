@@ -1,22 +1,20 @@
-import * as React from 'react'
+import React from 'react'
 import { Game } from './gameListReducer'
 import { Link } from 'react-router-dom'
-import sortBy = require('lodash/sortBy')
-import moment = require('moment')
-import classNames = require('classnames')
+import sortBy from 'lodash/sortBy'
+import { DateTime } from 'luxon'
+import classNames from 'classnames'
 
 type Props = Readonly<{
   game: Game
 }>
 
-export default class GameListRow extends React.PureComponent<Props> {
-  render () {
-    const { game } = this.props
-    return (
+export default function GameListRow ({ game }: Props) {
+  return (
       <tr>
         <td>
           <Link to={`/games/${game.id}`}>
-            {moment(game.startTime).fromNow()}
+            {DateTime.fromISO(game.startTime).toRelative()}
           </Link>
         </td>
         {
@@ -27,6 +25,5 @@ export default class GameListRow extends React.PureComponent<Props> {
           )
         }
       </tr>
-    )
-  }
+  )
 }

@@ -15,12 +15,12 @@ export type Game = Readonly<{
   endTime?: string
   timestamp: number
   winningScore: number
-  players: ReadonlyArray<Player>
+  players: readonly Player[]
   handCount: number
 }>
 
 export type GameListState = Readonly<{
-  games: ReadonlyArray<Game>
+  games: readonly Game[]
   busy: boolean
   error?: Error
 }>

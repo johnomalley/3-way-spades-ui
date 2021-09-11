@@ -1,7 +1,7 @@
-import * as React from 'react'
+import React from 'react'
 import { Card as CardType } from './gameReducer'
 import SuitSymbol from '../common/SuitSymbol'
-import classNames = require('classnames')
+import classNames from 'classnames'
 
 type Props = Readonly<{
   card: CardType
@@ -25,31 +25,21 @@ const rankSymbol = (rank: number): string => {
   }
 }
 
-export default class Card extends React.PureComponent<Props> {
-  onClick = () => {
-    this.onClickDelegate(1)
-  }
+export default function Card ({ card, className, selected, onClick }: Props) {
+  // noinspection JSUnusedGlobalSymbols
+  const clickProps = onClick
+    ? {
+        onClick: () => onClick(card, 1),
+        onDoubleClick: () => onClick(card, 2)
+      }
+    : {}
 
-  onDoubleClick = () => {
-    this.onClickDelegate(2)
-  }
-
-  onClickDelegate = (clickCount: number) => {
-    this.props.onClick!(this.props.card, clickCount)
-  }
-
-  render (): React.ReactNode {
-    const { card, className, onClick, selected } = this.props
-    return (
-      <div
-        className={classNames('playing-card', className, { selectable: Boolean(onClick), selected })}
-        onClick={onClick ? this.onClick : undefined} onDoubleClick={onClick ? this.onDoubleClick : undefined}
-      >
-        <span className='rank'>
-          {rankSymbol(card.rank)}
-        </span>
-        <SuitSymbol suit={card.suit} />
-      </div>
-    )
-  }
+  return (
+    <div className={classNames('playing-card', className, { selectable: Boolean(onClick), selected })} {...clickProps}>
+      <span className='rank'>
+        {rankSymbol(card.rank)}
+      </span>
+      <SuitSymbol suit={card.suit} />
+    </div>
+  )
 }

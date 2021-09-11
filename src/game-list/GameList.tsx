@@ -1,23 +1,21 @@
-import * as React from 'react'
+import React from 'react'
 import { Game } from './gameListReducer'
 import GameListRow from './GameListRow'
 
 type Props = Readonly<{
-  games: ReadonlyArray<Game>
+  games: readonly Game[]
 }>
 
-export default class GameList extends React.PureComponent<Props> {
-  render () {
-    return (
+export default function GameList ({ games }: Props) {
+  return (
       <table className='table'>
         <tbody>
           {
-          this.props.games.map(game =>
+          games.map(game =>
             <GameListRow key={game.id} game={game} />
           )
         }
         </tbody>
       </table>
-    )
-  }
+  )
 }

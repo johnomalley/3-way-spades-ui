@@ -1,7 +1,7 @@
 import { Renderer } from 'react-dom'
 import { Provider } from 'react-redux'
 import { History } from 'history'
-import * as React from 'react'
+import React from 'react'
 import createStore from './store/createStore'
 import AppContainer from './AppContainer'
 

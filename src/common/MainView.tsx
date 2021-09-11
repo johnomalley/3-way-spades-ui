@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import ErrorOverlay from './ErrorOverlay'
 
 type Props = Readonly<{
@@ -7,18 +7,15 @@ type Props = Readonly<{
   children?: React.ReactNode
 }>
 
-export default class MainView extends React.PureComponent<Props> {
-  render (): React.ReactNode {
-    const { title, error, children } = this.props
-    return (
-      <div className='columns'>
-        <div className='column is-half'>
-          <h4>{title}</h4>
-          {
-            error ? <ErrorOverlay error={error} /> : children
-          }
-        </div>
+export default function MainView ({ title, error, children }: Props) {
+  return (
+    <div className='columns'>
+      <div className='column is-half'>
+        <h4>{title}</h4>
+        {
+          error ? <ErrorOverlay error={error} /> : children
+        }
       </div>
-    )
-  }
+    </div>
+  )
 }

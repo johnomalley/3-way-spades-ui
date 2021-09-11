@@ -12,7 +12,7 @@ import {
   gameUpdate,
   gameUpdateBid
 } from './actions'
-import last = require('lodash/last')
+import last from 'lodash/last'
 
 export type Card = Readonly<{
   suit: Suit
@@ -22,7 +22,7 @@ export type Card = Readonly<{
 export type Trick = Readonly<{
   leader: number
   winner?: number
-  cards: ReadonlyArray<Card>
+  cards: readonly Card[]
 }>
 
 export enum HandPhase {
@@ -42,14 +42,14 @@ export type PlayerView = Readonly<{
   players: ReadonlyArray<Readonly<{
     name: string
     points: number
-    pointsPerHand: ReadonlyArray<number>
+    pointsPerHand: readonly number[]
     bid?: number
     trickCount: number
   }>>
   cardsVisible: boolean
-  cardsInHand: ReadonlyArray<Card>
-  cardsPlayed: ReadonlyArray<Card>
-  tricks: ReadonlyArray<Trick>
+  cardsInHand: readonly Card[]
+  cardsPlayed: readonly Card[]
+  tricks: readonly Trick[]
 }>
 
 export type BidRange = Readonly<{

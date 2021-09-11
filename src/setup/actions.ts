@@ -4,7 +4,7 @@ export const credentialsUpdate = 'credentials/update'
 
 export const credentialsSave = 'credentials/save'
 
-export const setupActions = <const>[
+export const setupActions: readonly string[] = [
   credentialsInit,
   credentialsUpdate,
   credentialsSave

@@ -1,9 +1,8 @@
-import * as process from 'process'
-import * as agent from 'superagent'
+import agent from 'superagent'
 
 const apiGatewayUrl = 'https://v0y1ipttbc.execute-api.us-east-2.amazonaws.com/default'
 
-const baseUrl = process.env.BASE_URL || apiGatewayUrl
+const baseUrl = process.env.BASE_URL ?? apiGatewayUrl
 
 const apiKeyHeader = {
   'x-api-key': '?'
