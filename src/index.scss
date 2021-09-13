@@ -105,6 +105,13 @@
 
 .play-area {
   .level-left {
+    .play-area-card {
+      &.lead {
+        .playing-card {
+          border: 1px solid $primary;
+        }
+      }
+    }
     .playing-card {
       margin-right: 10px;
     }

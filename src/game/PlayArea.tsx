@@ -24,25 +24,29 @@ const getCardsByPlayerNumber = (trick?: Trick): CardByPlayerNumber => {
 
 export default function PlayArea ({ playerView }: Props) {
   const { tricks, players, playerNumber } = playerView
-  const cardsByPlayerNumber = getCardsByPlayerNumber(last(tricks))
+  const trick = last(tricks)
+  const cardsByPlayerNumber = getCardsByPlayerNumber(trick)
   const leftPlayerNumber = (playerNumber + 2) % 3
   const rightPlayerNumber = (playerNumber + 1) % 3
+  const leader = trick ? trick.leader : -1
   return (
     <div className='column is-half play-area'>
       <div className='card'>
         <div className='card-content'>
           <div className='level current-player-area'>
-            <PlayAreaCard card={cardsByPlayerNumber[playerNumber]} />
+            <PlayAreaCard lead={playerNumber === leader} card={cardsByPlayerNumber[playerNumber]} />
           </div>
           <div className='level opponent-area'>
             <div className='level-left'>
               <PlayAreaCard
+                lead={leftPlayerNumber === leader}
                 side='left' playerName={players[leftPlayerNumber].name}
                 card={cardsByPlayerNumber[leftPlayerNumber]}
               />
             </div>
             <div className='level-right'>
               <PlayAreaCard
+                lead={rightPlayerNumber === leader}
                 side='right' playerName={players[rightPlayerNumber].name}
                 card={cardsByPlayerNumber[rightPlayerNumber]}
               />
