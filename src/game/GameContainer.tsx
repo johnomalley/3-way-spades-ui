@@ -31,13 +31,17 @@ const getOpponentProps = (playerView?: PlayerView): readonly OpponentViewProps[]
   }
 }
 
-function GameContainer ({ playerView, busy, selectedCard, bidRange, bid, dispatch, match }: Props) {
+function GameContainer ({ credentialsValid, playerView, busy, selectedCard, bidRange, bid, dispatch, push, match }: Props) {
   useEffect(() => {
-    dispatch({ type: gameGet, payload: match.params.id })
-    changePoller.start()
+    if (credentialsValid) {
+      dispatch({ type: gameGet, payload: match.params.id })
+      changePoller.start()
 
-    return () => {
-      changePoller.stop()
+      return () => {
+        changePoller.stop()
+      }
+    } else {
+      push('/setup')
     }
   }, [])
 
