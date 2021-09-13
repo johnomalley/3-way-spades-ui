@@ -1,12 +1,10 @@
 import React from 'react'
 import { Dispatch } from 'redux'
-import { BidRange, Card, HandPhase, PlayerView, Trick } from './gameReducer'
+import { BidRange, Card, HandPhase, PlayerView } from './gameReducer'
 import Hand from './Hand'
 import { gamePlay } from './actions'
-import { Suit } from '../common/types'
 import PlayerHeader from './PlayerHeader'
 import BidButtons from './BidButtons'
-import last from 'lodash/last'
 
 type Props = Readonly<{
   playerView: PlayerView
@@ -17,45 +15,7 @@ type Props = Readonly<{
   dispatch: Dispatch
 }>
 
-const getSmallestClub = (cards: readonly Card[]): Card | undefined => {
-  let smallest: Card | undefined
-  for (const c of cards.filter(_ => _.suit === Suit.Clubs)) {
-    if (!smallest || c.rank < smallest.rank) {
-      smallest = c
-    }
-  }
-  return smallest
-}
-
-const canPlayOnFirstTrick = (cards: readonly Card[], card: Card) => {
-  const smallest = getSmallestClub(cards)
-  if (smallest) {
-    return smallest === card
-  } else {
-    return card.suit !== Suit.Spades
-  }
-}
-
-const spadesBroken = (tricks: readonly Trick[]) =>
-  tricks.some(_ => _.cards.some(_ => _.suit === Suit.Spades))
-
-const hasOnlySpades = (cards: readonly Card[]) => cards.every(_ => _.suit === Suit.Spades)
-
-const canPlayCard = (playerView: PlayerView, card: Card): boolean => {
-  const cards = playerView.cardsInHand
-  if (playerView.cardsPlayed.length === 0) {
-    return canPlayOnFirstTrick(cards, card)
-  } else {
-    const { tricks } = playerView
-    const trick = last(tricks)!
-    if (trick.cards.length === 3) {
-      return card.suit !== Suit.Spades || spadesBroken(tricks) || hasOnlySpades(cards)
-    } else {
-      const { suit } = trick.cards[0]!
-      return suit === card.suit || cards.every(_ => _.suit !== suit)
-    }
-  }
-}
+const canPlayCard = (playerView: PlayerView, card: Card): boolean => playerView.cardsPlayable.includes(card)
 
 export default function CurrentPlayerView ({ playerView, busy, bidRange, bid, selectedCard, dispatch }: Props) {
   const isPlayEnabled = () => {
@@ -70,18 +30,18 @@ export default function CurrentPlayerView ({ playerView, busy, bidRange, bid, se
 
   const playEnabled = isPlayEnabled()
 
-  const playCard = playEnabled
-    ? (card: Card) => {
-        dispatch({ type: gamePlay, payload: card })
-      }
-    : undefined
+  const playCard = (card: Card) => {
+    if (canPlayCard(playerView, card)) {
+      dispatch({ type: gamePlay, payload: card })
+    }
+  }
 
   const playButtonProps = {
     className: 'button is-primary',
     disabled: !playEnabled,
     ...playEnabled
       ? {
-          onClick: () => playCard!(selectedCard!)
+          onClick: () => playCard(selectedCard!)
         }
       : {}
   }

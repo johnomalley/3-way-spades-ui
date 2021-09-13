@@ -20,6 +20,15 @@ const suits = [
   Suit.Diamonds
 ]
 
+const isUnplayable = ({ phase, playerNumber, currentPlayerNumber, cardsPlayable }: PlayerView, card: CardType) => {
+  if (card.rank === 14 && card.suit === Suit.Spades) {
+    console.log(phase === HandPhase.Play)
+    console.log(currentPlayerNumber === playerNumber)
+    console.log(cardsPlayable.includes(card))
+  }
+  return phase === HandPhase.Play && currentPlayerNumber === playerNumber && !cardsPlayable.includes(card)
+}
+
 export default function Hand ({ playerView, selectedCard, playCard, dispatch }: Props) {
   const onClick = playerView.phase === HandPhase.Play
     ? (card: CardType, clickCount: number) => {
@@ -40,12 +49,14 @@ export default function Hand ({ playerView, selectedCard, playCard, dispatch }: 
               cardsBySuit[suit]
                 ? (
                     cardsBySuit[suit].map(card =>
-                    <Card key={card.rank} card={card} selected={card === selectedCard} onClick={onClick} />
+                      <Card key={card.rank}
+                            card={card}
+                            selected={card === selectedCard}
+                            unplayable={isUnplayable(playerView, card)}
+                            onClick={onClick} />
                     )
                   )
-                : (
-                  <div className='playing-card invisible' />
-                  )
+                : <div className='playing-card invisible' />
             }
           </div>
         )

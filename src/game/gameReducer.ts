@@ -49,6 +49,7 @@ export type PlayerView = Readonly<{
   cardsVisible: boolean
   cardsInHand: readonly Card[]
   cardsPlayed: readonly Card[]
+  cardsPlayable: readonly Card[]
   tricks: readonly Trick[]
 }>
 
@@ -97,6 +98,19 @@ const addCardToTrick = (playerView: PlayerView, card: Card): PlayerView => {
   }
 }
 
+// use the same objects for cardsPlayable so that we can just use object identity to see if a card is playable
+const withCardsPlayable = (playerView: PlayerView): PlayerView => playerView.cardsPlayable.length === 0
+  ? playerView
+  : {
+      ...playerView,
+      cardsPlayable: playerView.cardsInHand.filter(
+        c => playerView.cardsPlayable.some(_ => _.suit === c.suit && _.rank === c.rank)
+      )
+    }
+
+const maybeSelectCard = (gameState: GameState): GameState =>
+  gameState.playerView!.cardsPlayable.length === 1 ? { ...gameState, selectedCard: gameState.playerView!.cardsPlayable[0] } : gameState
+
 export default (state: GameState = initialState, action: Action = nullAction) => {
   switch (action.type) {
     case gameGet:
@@ -111,11 +125,11 @@ export default (state: GameState = initialState, action: Action = nullAction) =>
         selectedCard: action.payload
       }
     case gameUpdate:
-      return {
+      return maybeSelectCard({
         ...state,
-        playerView: action.payload,
+        playerView: withCardsPlayable(action.payload),
         busy: false
-      }
+      })
     case gameUpdateBid:
       return {
         ...state,

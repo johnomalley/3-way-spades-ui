@@ -47,50 +47,41 @@ export default function PlayerHeader ({ playerView, busy, playerNumber }: Props)
     }
   }
 
-  const headerClass = classNames(
-    'card-header',
-    'player-summary',
-    { active: playerView.currentPlayerNumber === playerNumber }
-  )
+  const headerClass = classNames('card-header', 'player-summary', { active: playerView.currentPlayerNumber === playerNumber })
 
   return (
     <div className={headerClass}>
       <div className='card-header-title level'>
         <div className='level-left'>
-          <div className='level-item'>
+          <div className='level-item player-name'>
             {player.name}
           </div>
           {
             player.points === 0
               ? undefined
-              : (
-                <div className='level-item points'>{String(player.points)}</div>
-                )
+              : <div className='level-item points'>{String(player.points)}</div>
+
           }
           {
             player.bid === undefined
               ? undefined
-              : (
-                <div className='level-item bid'>{bidString(player.bid)}</div>
-                )
+              : <div className='level-item bid'>{bidString(player.bid)}</div>
+
           }
           {
             phase === HandPhase.Bidding
               ? undefined
-              : (
-                <div className={classNames('level-item', 'trick-count', getTrickCountModifier())}>
+              : <div className={classNames('level-item', 'trick-count', getTrickCountModifier())}>
                   {player.trickCount}
                 </div>
-                )
+
           }
         </div>
         {
           busy
-            ? (
-              <div className='level-right'>
+            ? <div className='level-right'>
                 <WaitSpinner className='level-item' />
               </div>
-              )
             : undefined
         }
       </div>

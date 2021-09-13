@@ -9,8 +9,8 @@ type Props = Readonly<{
 }>
 
 export default function PlayAreaCard ({ side, playerName, card }: Props) {
-  const playerNameNode = playerName ? (<div className='player-name'>{playerName}</div>) : undefined
-  const cardNode = card ? (<Card card={card} selected={false} />) : (<div className='playing-card' />)
+  const playerNameNode = playerName ? <div className='player-name'>{playerName}</div> : undefined
+  const cardNode = card ? <Card card={card} /> : <div className='playing-card' />
 
   return (
     <div className='level-item'>

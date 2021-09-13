@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 type Props = Readonly<{
   card: CardType
+  unplayable?: boolean
   className?: string
   selected?: boolean
   onClick?: (card: CardType, clickCount: number) => void
@@ -25,17 +26,27 @@ const rankSymbol = (rank: number): string => {
   }
 }
 
-export default function Card ({ card, className, selected, onClick }: Props) {
+export default function Card ({ card, unplayable, className, selected, onClick }: Props) {
   // noinspection JSUnusedGlobalSymbols
-  const clickProps = onClick
+  const clickProps = onClick && !unplayable
     ? {
         onClick: () => onClick(card, 1),
         onDoubleClick: () => onClick(card, 2)
       }
     : {}
 
+  const classes = classNames(
+    'playing-card',
+    className,
+    {
+      selectable: Boolean(clickProps.onClick),
+      unplayable,
+      selected
+    }
+  )
+
   return (
-    <div className={classNames('playing-card', className, { selectable: Boolean(onClick), selected })} {...clickProps}>
+    <div className={classes} {...clickProps}>
       <span className='rank'>
         {rankSymbol(card.rank)}
       </span>

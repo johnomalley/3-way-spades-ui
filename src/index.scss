@@ -13,7 +13,7 @@
 .playing-card {
   user-select: none;
   -webkit-user-select: none;
-  border: 1px solid $primary;
+  border: 1px solid #aaa;
   border-radius: 3px;
   padding: 4px 4px  16px;
   min-width: 43px;
@@ -25,10 +25,13 @@
     margin-left: 2px;
   }
   &.face-down {
-    background-color: burlywood;
+    background-color: lighten($info, 40%);
   }
   &.invisible {
     visibility: hidden;
+  }
+  &.playable {
+    opacity: 1;
   }
 }
 
@@ -64,22 +67,25 @@
     }
   }
   &.active {
-    background-color: lighten($primary, 55%);
+    background-color: lighten($info, 20%);
+    .player-name {
+      color: white;
+    }
   }
 }
 
 .current-player {
   .player-hand {
     .playing-card {
+      &.unplayable {
+        opacity: 0.5;
+      }
+
       &.selectable {
         cursor: pointer;
 
         &:hover {
           background-color: $light;
-
-          &.selected {
-            background-color: lighten($primary, 50%);
-          }
         }
       }
 
