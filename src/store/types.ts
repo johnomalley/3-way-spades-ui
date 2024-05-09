@@ -1,16 +1,16 @@
-import { RouterState } from 'connected-react-router'
-import { History } from 'history'
-import { SetupState, SetupActionType } from '../setup/setupReducer'
-import { GameListActionType, GameListState } from '../game-list/gameListReducer'
-import { GameActionType, GameState } from '../game/gameReducer'
+import { type RouterState } from 'connected-react-router'
+import { type History } from 'history'
+import { type SetupState, type SetupActionType } from '../setup/setupReducer'
+import { type GameListActionType, type GameListState } from '../game-list/gameListReducer'
+import { type GameActionType, type GameState } from '../game/gameReducer'
 
 type UnknownActionType = 'unknown'
 
 export type ActionType = SetupActionType | GameListActionType | GameActionType | UnknownActionType
 
-export type Action = Readonly<{
+export type Action<T> = Readonly<{
   type: ActionType
-  payload?: any
+  payload?: T
 }>
 
 export type State = Readonly<{

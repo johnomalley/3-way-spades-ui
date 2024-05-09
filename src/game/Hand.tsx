@@ -1,6 +1,6 @@
-import { Dispatch } from 'redux'
+import { type Dispatch } from 'redux'
 import React from 'react'
-import { Card as CardType, HandPhase, PlayerView } from './gameReducer'
+import { type Card as CardType, HandPhase, type PlayerView } from './gameReducer'
 import Card from './Card'
 import { gameSelectCard } from './actions'
 import { Suit } from '../common/types'

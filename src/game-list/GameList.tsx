@@ -1,5 +1,5 @@
 import React from 'react'
-import { Game } from './gameListReducer'
+import { type Game } from './gameListReducer'
 import GameListRow from './GameListRow'
 
 type Props = Readonly<{

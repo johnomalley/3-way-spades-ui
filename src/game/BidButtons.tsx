@@ -1,6 +1,6 @@
 import React from 'react'
-import { Dispatch } from 'redux'
-import { BidRange, PlayerView } from './gameReducer'
+import { type Dispatch } from 'redux'
+import { type BidRange, type PlayerView } from './gameReducer'
 import { gameBid, gameScrollBid, gameShowCards, gameUpdateBid } from './actions'
 import range from 'lodash/range'
 import classNames from 'classnames'
@@ -29,7 +29,7 @@ export default function BidButtons ({ playerView, busy, bid, bidRange: { min, ma
         playerView.cardsVisible
           ? (
             <>
-              <button className='button bid-button' disabled={allDisabled || min === 0} onClick={() => scroll(-1)}>
+              <button className='button bid-button' disabled={allDisabled || min === 0} onClick={() => { scroll(-1) }}>
                 -
               </button>
               {
@@ -37,20 +37,20 @@ export default function BidButtons ({ playerView, busy, bid, bidRange: { min, ma
                   <button
                     key={i} disabled={allDisabled}
                     className={classNames('button', 'bid-button', { 'is-info': bid === i })}
-                    onClick={bid === i ? undefined : () => selectBid(i)}
+                    onClick={bid === i ? undefined : () => { selectBid(i) }}
                   >
                     {i === 0 ? 'N' : String(i)}
                   </button>
                 )
               }
-              <button className='button bid-button' disabled={allDisabled || max === 17} onClick={() => scroll(1)}>
+              <button className='button bid-button' disabled={allDisabled || max === 17} onClick={() => { scroll(1) }}>
                 +
               </button>
             </>
             )
           : (
             <>
-              <button className='button bid-button' disabled={allDisabled} onClick={() => selectBid(-1)}>
+              <button className='button bid-button' disabled={allDisabled} onClick={() => { selectBid(-1) }}>
                 Double Nil
               </button>
               <button className='button bid-button' disabled={busy} onClick={() => dispatch({ type: gameShowCards })}>

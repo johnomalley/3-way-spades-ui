@@ -1,5 +1,5 @@
 import React from 'react'
-import { HandPhase, PlayerView } from './gameReducer'
+import { HandPhase, type PlayerView } from './gameReducer'
 import last from 'lodash/last'
 import range from 'lodash/range'
 

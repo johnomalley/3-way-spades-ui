@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, PlayerView, Trick } from './gameReducer'
+import { type Card, type PlayerView, type Trick } from './gameReducer'
 import PlayAreaCard from './PlayAreaCard'
 import last from 'lodash/last'
 
@@ -7,9 +7,7 @@ type Props = Readonly<{
   playerView: PlayerView
 }>
 
-interface CardByPlayerNumber {
-  [playerNumber: number]: Card
-}
+type CardByPlayerNumber = Record<number, Card>
 
 const getCardsByPlayerNumber = (trick?: Trick): CardByPlayerNumber => {
   const result: CardByPlayerNumber = {}

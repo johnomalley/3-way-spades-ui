@@ -1,8 +1,8 @@
-import { Suit } from '../common/types'
+import { type Suit } from '../common/types'
 import nullAction from '../store/nullAction'
-import { Action } from '../store/types'
+import { type Action } from '../store/types'
 import {
-  gameActions,
+  type gameActions,
   gameBid,
   gameError,
   gameGet,
@@ -111,7 +111,7 @@ const withCardsPlayable = (playerView: PlayerView): PlayerView => playerView.car
 const maybeSelectCard = (gameState: GameState): GameState =>
   gameState.playerView!.cardsPlayable.length === 1 ? { ...gameState, selectedCard: gameState.playerView!.cardsPlayable[0] } : gameState
 
-export default (state: GameState = initialState, action: Action = nullAction) => {
+export default (state: GameState = initialState, action: Action<unknown> = nullAction) => {
   switch (action.type) {
     case gameGet:
       return {
@@ -127,7 +127,7 @@ export default (state: GameState = initialState, action: Action = nullAction) =>
     case gameUpdate:
       return maybeSelectCard({
         ...state,
-        playerView: withCardsPlayable(action.payload),
+        playerView: withCardsPlayable(action.payload as PlayerView),
         busy: false
       })
     case gameUpdateBid:
@@ -138,7 +138,7 @@ export default (state: GameState = initialState, action: Action = nullAction) =>
     case gameScrollBid:
       return {
         ...state,
-        bidRange: scrollBidRange(state.bidRange, action.payload)
+        bidRange: scrollBidRange(state.bidRange, action.payload as number)
       }
     case gameBid:
       return {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { PlayerView } from './gameReducer'
+import { type PlayerView } from './gameReducer'
 import PlayerHeader from './PlayerHeader'
 import OpponentCardsView from './OpponentCardsView'
 

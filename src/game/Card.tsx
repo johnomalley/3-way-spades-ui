@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card as CardType } from './gameReducer'
+import { type Card as CardType } from './gameReducer'
 import SuitSymbol from '../common/SuitSymbol'
 import classNames from 'classnames'
 
@@ -30,8 +30,8 @@ export default function Card ({ card, unplayable, className, selected, onClick }
   // noinspection JSUnusedGlobalSymbols
   const clickProps = onClick && !unplayable
     ? {
-        onClick: () => onClick(card, 1),
-        onDoubleClick: () => onClick(card, 2)
+        onClick: () => { onClick(card, 1) },
+        onDoubleClick: () => { onClick(card, 2) }
       }
     : {}
 

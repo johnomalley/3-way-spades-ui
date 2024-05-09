@@ -4,9 +4,7 @@ import SetupViewContainer from './setup/SetupViewContainer'
 import GameListViewContainer from './game-list/GameListViewContainer'
 import GameContainer from './game/GameContainer'
 
-type Props = Readonly<{}>
-
-export default function Routes (_: Props) {
+export default function Routes () {
   return (
     <Switch>
       <Route path='/setup' component={SetupViewContainer} />

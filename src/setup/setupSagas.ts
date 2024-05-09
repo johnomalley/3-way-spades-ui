@@ -1,8 +1,8 @@
 import { put, takeEvery, select } from 'redux-saga/effects'
-import { Action } from '../store/types'
+import { type Action } from '../store/types'
 import { credentialsInit, credentialsSave, credentialsUpdate } from './actions'
 import getCredentials from './getCredentials'
-import { Credentials } from './setupReducer'
+import { type Credentials } from './setupReducer'
 import api from '../api/api'
 import isString from 'lodash/isString'
 
@@ -17,7 +17,7 @@ const maybeSetApiKey = ({ apiKey }: Credentials) => {
 
 export function * initCredentials () {
   try {
-    const { apiKey, playerId } = JSON.parse(localStorage.credentials)
+    const { apiKey, playerId } = JSON.parse(localStorage.credentials as string)
     const payload = {
       ...asString('apiKey', apiKey),
       ...asString('playerId', playerId)
@@ -29,10 +29,10 @@ export function * initCredentials () {
   }
 }
 
-export function * saveCredentials ({ payload }: Action): any {
+export function * saveCredentials ({ payload }: Action<Credentials>): any {
   const credentials = yield select(getCredentials)
   localStorage.credentials = JSON.stringify({ ...credentials, ...payload })
-  maybeSetApiKey(payload)
+  maybeSetApiKey(payload!)
   yield put({ type: credentialsUpdate, payload })
 }
 

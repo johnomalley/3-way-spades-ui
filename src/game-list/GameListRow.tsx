@@ -1,5 +1,5 @@
 import React from 'react'
-import { Game } from './gameListReducer'
+import { type Game } from './gameListReducer'
 import { Link } from 'react-router-dom'
 import sortBy from 'lodash/sortBy'
 import { DateTime } from 'luxon'

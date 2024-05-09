@@ -1,6 +1,6 @@
 import nullAction from '../store/nullAction'
-import { Action } from '../store/types'
-import { credentialsUpdate, setupActions } from './actions'
+import { type Action } from '../store/types'
+import { credentialsUpdate, type setupActions } from './actions'
 
 export type SetupActionType = typeof setupActions[number]
 
@@ -22,12 +22,12 @@ const validateCredentials = (state: SetupState): SetupState => ({
   credentialsValid: Boolean(state.apiKey) && Boolean(state.playerId)
 })
 
-export default (state: SetupState = initialState, action: Action = nullAction): SetupState => {
+export default (state: SetupState = initialState, action: Action<unknown> = nullAction): SetupState => {
   switch (action.type) {
     case credentialsUpdate:
       return validateCredentials({
         ...state,
-        ...action.payload
+        ...action.payload as Credentials
       })
     default:
       return state

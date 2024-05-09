@@ -1,8 +1,8 @@
 import React from 'react'
-import { History } from 'history'
+import { type History } from 'history'
 import { connect } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { State } from './store/types'
+import { type State } from './store/types'
 import Routes from './Routes'
 import Navbar from './Navbar'
 

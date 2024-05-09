@@ -1,5 +1,5 @@
 import React from 'react'
-import { HandPhase, PlayerView } from './gameReducer'
+import { HandPhase, type PlayerView } from './gameReducer'
 import bidString from './bidString'
 import WaitSpinner from '../common/WaitSpinner'
 import last from 'lodash/last'

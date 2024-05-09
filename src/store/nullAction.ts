@@ -1,6 +1,6 @@
-import { Action } from './types'
+import { type Action } from './types'
 
-const nullAction: Action = {
+const nullAction: Action<never> = {
   type: 'unknown'
 }
 

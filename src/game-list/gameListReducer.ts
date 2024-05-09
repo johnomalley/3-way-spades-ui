@@ -1,6 +1,6 @@
-import { Action } from '../store/types'
+import { type Action } from '../store/types'
 import nullAction from '../store/nullAction'
-import { gameListActions, gameListError, gameListGet, gameListUpdate } from './actions'
+import { type gameListActions, gameListError, gameListGet, gameListUpdate } from './actions'
 
 export type Player = Readonly<{
   id: string
@@ -32,7 +32,7 @@ const initialState: GameListState = {
 
 export type GameListActionType = typeof gameListActions[number]
 
-export default (state: GameListState = initialState, action: Action = nullAction): GameListState => {
+export default (state: GameListState = initialState, action: Action<unknown> = nullAction): GameListState => {
   switch (action.type) {
     case gameListGet:
       return {
@@ -45,13 +45,13 @@ export default (state: GameListState = initialState, action: Action = nullAction
       return {
         ...state,
         busy: false,
-        games: action.payload
+        games: action.payload as readonly Game[]
       }
     case gameListError:
       return {
         ...state,
         busy: false,
-        error: action.payload
+        error: action.payload as Error
       }
     default:
       return state

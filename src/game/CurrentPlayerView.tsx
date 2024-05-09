@@ -1,6 +1,6 @@
 import React from 'react'
-import { Dispatch } from 'redux'
-import { BidRange, Card, HandPhase, PlayerView } from './gameReducer'
+import { type Dispatch } from 'redux'
+import { type BidRange, type Card, HandPhase, type PlayerView } from './gameReducer'
 import Hand from './Hand'
 import { gamePlay } from './actions'
 import PlayerHeader from './PlayerHeader'
@@ -41,7 +41,7 @@ export default function CurrentPlayerView ({ playerView, busy, bidRange, bid, se
     disabled: !playEnabled,
     ...playEnabled
       ? {
-          onClick: () => playCard(selectedCard!)
+          onClick: () => { playCard(selectedCard!) }
         }
       : {}
   }

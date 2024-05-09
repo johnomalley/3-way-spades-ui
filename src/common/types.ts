@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux'
+import { type Dispatch } from 'redux'
 
 export type DefaultDispatchProps = Readonly<{
   dispatch: Dispatch

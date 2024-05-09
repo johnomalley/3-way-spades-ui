@@ -1,6 +1,6 @@
-import { Renderer } from 'react-dom'
+import { type Renderer } from 'react-dom'
 import { Provider } from 'react-redux'
-import { History } from 'history'
+import { type History } from 'history'
 import React from 'react'
 import createStore from './store/createStore'
 import AppContainer from './AppContainer'

@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React, { type ChangeEvent } from 'react'
 
 type Props = Readonly<{
   apiKey?: string
@@ -7,11 +7,9 @@ type Props = Readonly<{
 }>
 
 export default function SetupForm ({ apiKey, playerId, onChange }: Props) {
-  const onApiKeyChanged = (event: ChangeEvent<HTMLInputElement>) =>
-    onChange('apiKey', event.target.value)
+  const onApiKeyChanged = (event: ChangeEvent<HTMLInputElement>) => { onChange('apiKey', event.target.value) }
 
-  const onPlayerIdChanged = (event: ChangeEvent<HTMLInputElement>) =>
-    onChange('playerId', event.target.value)
+  const onPlayerIdChanged = (event: ChangeEvent<HTMLInputElement>) => { onChange('playerId', event.target.value) }
 
   return (
     <div className='card'>

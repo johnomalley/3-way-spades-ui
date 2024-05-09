@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { Card as CardType } from './gameReducer'
+import { type Card as CardType } from './gameReducer'
 import Card from './Card'
 
 type Props = Readonly<{

@@ -1,6 +1,6 @@
-import { Dispatch } from 'redux'
+import { type Dispatch } from 'redux'
 import { push } from 'connected-react-router'
-import { DefaultDispatchProps } from './types'
+import { type DefaultDispatchProps } from './types'
 
 export default (dispatch: Dispatch): DefaultDispatchProps => ({
   dispatch,
