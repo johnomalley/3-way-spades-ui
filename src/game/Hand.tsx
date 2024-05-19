@@ -2,7 +2,7 @@ import { type Dispatch } from 'redux'
 import React from 'react'
 import { type Card as CardType, HandPhase, type PlayerView } from './gameReducer'
 import Card from './Card'
-import { gameSelectCard } from './actions'
+import { gameSelectCard } from './gameActions'
 import { Suit } from '../common/types'
 import groupBy from 'lodash/groupBy'
 

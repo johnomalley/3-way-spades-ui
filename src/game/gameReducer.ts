@@ -11,7 +11,7 @@ import {
   gameSelectCard,
   gameUpdate,
   gameUpdateBid
-} from './actions'
+} from './gameActions'
 import last from 'lodash/last'
 
 export type Card = Readonly<{

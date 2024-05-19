@@ -11,7 +11,7 @@ export default function MainView ({ title, error, children }: Props) {
   return (
     <div className='columns'>
       <div className='column is-half'>
-        <h4>{title}</h4>
+        <h4 className='pl-2'>{title}</h4>
         {
           error ? <ErrorOverlay error={error} /> : children
         }

@@ -11,4 +11,4 @@ export const gameListActions: readonly string[] = [
   gameListUpdate,
   gameListError,
   gameListNew
-]
+] as const

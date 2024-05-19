@@ -1,23 +1,26 @@
 import React, { useEffect } from 'react'
-import { type RouteComponentProps } from 'react-router-dom'
-import { type DefaultDispatchProps } from '../common/types'
-import mapDispatchToProps from '../common/mapDispatchToProps'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { type State } from '../store/types'
-import { gameGet } from './actions'
-import { type GameState, type PlayerView } from './gameReducer'
+import { gameGet } from './gameActions'
+import { type PlayerView } from './gameReducer'
 import WaitSpinner from '../common/WaitSpinner'
 import CurrentPlayerView from './CurrentPlayerView'
 import OpponentView, { type OpponentViewProps } from './OpponentView'
 import PlayArea from './PlayArea'
 import changePoller from './changePoller'
 import range from 'lodash/range'
+import { useAppSelector } from '../store/createStore'
+import { type RouteComponentProps } from 'react-router-dom'
+import { push } from 'connected-react-router'
 
-type StateProps = GameState & Readonly<{
-  credentialsValid: boolean
-}>
-
-type Props = StateProps & DefaultDispatchProps & RouteComponentProps<{ id: string }>
+const selectProps = ({ setup: { credentialsValid }, game }: State) => ({
+  credentialsValid,
+  playerView: game.playerView,
+  busy: game.busy,
+  selectedCard: game.selectedCard,
+  bidRange: game.bidRange,
+  bid: game.bid
+})
 
 const getOpponentProps = (playerView?: PlayerView): readonly OpponentViewProps[] => {
   if (playerView) {
@@ -31,7 +34,18 @@ const getOpponentProps = (playerView?: PlayerView): readonly OpponentViewProps[]
   }
 }
 
-function GameContainer ({ credentialsValid, playerView, busy, selectedCard, bidRange, bid, dispatch, push, match }: Props) {
+export default function GamePage ({ match }: RouteComponentProps<{ id: string }>) {
+  const dispatch = useDispatch()
+
+  const {
+    credentialsValid,
+    playerView,
+    busy,
+    selectedCard,
+    bidRange,
+    bid
+  } = useAppSelector(selectProps)
+
   useEffect(() => {
     if (credentialsValid) {
       dispatch({ type: gameGet, payload: match.params.id })
@@ -41,12 +55,12 @@ function GameContainer ({ credentialsValid, playerView, busy, selectedCard, bidR
         changePoller.stop()
       }
     } else {
-      push('/setup')
+      dispatch(push('/setup'))
     }
   }, [])
 
   return (
-    <div className='game'>
+    <div className='game p-4'>
       {
         playerView
           ? (
@@ -76,10 +90,3 @@ function GameContainer ({ credentialsValid, playerView, busy, selectedCard, bidR
     </div>
   )
 }
-
-export const mapStateToProps = ({ setup: { credentialsValid }, game }: State): StateProps => ({
-  ...game,
-  credentialsValid
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(GameContainer)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { type Dispatch } from 'redux'
 import { type BidRange, type PlayerView } from './gameReducer'
-import { gameBid, gameScrollBid, gameShowCards, gameUpdateBid } from './actions'
+import { gameBid, gameScrollBid, gameShowCards, gameUpdateBid } from './gameActions'
 import range from 'lodash/range'
 import classNames from 'classnames'
 

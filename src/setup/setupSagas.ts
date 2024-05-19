@@ -1,6 +1,6 @@
 import { put, takeEvery, select } from 'redux-saga/effects'
 import { type Action } from '../store/types'
-import { credentialsInit, credentialsSave, credentialsUpdate } from './actions'
+import { credentialsInit, credentialsSave, credentialsUpdate } from './setupActions'
 import getCredentials from './getCredentials'
 import { type Credentials } from './setupReducer'
 import api from '../api/api'

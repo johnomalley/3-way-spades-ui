@@ -1,7 +1,40 @@
 @import "../node_modules/bulma/bulma";
 
-.main-content {
-  padding: 20px;
+.home {
+  display: flex;
+
+  .left-panel, .right-panel {
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  .leader-board {
+    .player-1 {
+      font-size: 150%;
+    }
+    .player-2 {
+      font-size: 120%;
+    }
+  }
+
+  .recent-games {
+    width: 100%;
+    height: calc(100vh - 7rem);
+    overflow-y: auto;
+    table {
+      width: 100%;
+      thead {
+        tr {
+          td {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+    tr.shaded {
+      background-color: #e8f8f6;
+    }
+  }
 }
 
 .suit-icon {

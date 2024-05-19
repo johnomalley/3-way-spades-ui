@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { type History } from 'history'
 import React from 'react'
 import createStore from './store/createStore'
-import AppContainer from './AppContainer'
+import App from './App'
 
 interface Args {
   element: HTMLElement
@@ -18,7 +18,7 @@ export default ({ element, render, history }: Args) => {
 
   const rootContent = (
     <Provider store={store}>
-      <AppContainer />
+      <App />
     </Provider>
   )
 

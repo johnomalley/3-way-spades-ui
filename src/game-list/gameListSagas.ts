@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import api from '../api/api'
-import { gameListError, gameListGet, gameListNew, gameListUpdate } from './actions'
+import { gameListError, gameListGet, gameListNew, gameListUpdate } from './gameListActions'
 import push from '../common/push'
 
 const putError = (error: Error) => put({ type: gameListError, payload: error })

@@ -1,6 +1,6 @@
 import { type Action } from '../store/types'
 import nullAction from '../store/nullAction'
-import { type gameListActions, gameListError, gameListGet, gameListUpdate } from './actions'
+import { type gameListActions, gameListError, gameListGet, gameListUpdate } from './gameListActions'
 
 export type Player = Readonly<{
   id: string

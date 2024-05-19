@@ -1,6 +1,6 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects'
 import api from '../api/api'
-import { gameBid, gameError, gameGet, gamePlay, gameShowCards, gameUpdate } from './actions'
+import { gameBid, gameError, gameGet, gamePlay, gameShowCards, gameUpdate } from './gameActions'
 import push from '../common/push'
 import { type Action, type State } from '../store/types'
 import isNotFound from '../api/isNotFound'

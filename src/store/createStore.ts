@@ -6,14 +6,20 @@ import rootSaga from './rootSaga'
 import setupReducer from '../setup/setupReducer'
 import createMiddleware from './createMiddleware'
 import gameListReducer from '../game-list/gameListReducer'
+import gameStatsReducer from '../game-stats/gameStatsReducer'
 import gameReducer from '../game/gameReducer'
 import changePoller from '../game/changePoller'
+import { type TypedUseSelectorHook, useSelector } from 'react-redux'
+
+export const useAppSelector: TypedUseSelectorHook<State> = useSelector
 
 export default (history: History) => {
   const middleware = createMiddleware(history)
+
   const rootReducer = combineReducers({
     setup: setupReducer,
     gameList: gameListReducer,
+    gameStats: gameStatsReducer,
     game: gameReducer,
     router: connectRouter(history),
     history: () => history

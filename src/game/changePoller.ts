@@ -1,7 +1,7 @@
 import { type Dispatch } from 'redux'
 import { type State } from '../store/types'
 import api from '../api/api'
-import { gameUpdate } from './actions'
+import { gameUpdate } from './gameActions'
 
 type Config = Readonly<{
   dispatch: Dispatch

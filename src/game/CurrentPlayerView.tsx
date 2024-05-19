@@ -2,7 +2,7 @@ import React from 'react'
 import { type Dispatch } from 'redux'
 import { type BidRange, type Card, HandPhase, type PlayerView } from './gameReducer'
 import Hand from './Hand'
-import { gamePlay } from './actions'
+import { gamePlay } from './gameActions'
 import PlayerHeader from './PlayerHeader'
 import BidButtons from './BidButtons'
 

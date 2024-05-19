@@ -1,17 +1,24 @@
 import React from 'react'
 import { type History } from 'history'
-import { connect } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { type State } from './store/types'
 import Routes from './Routes'
 import Navbar from './Navbar'
+import { useAppSelector } from './store/createStore'
 
 export type Props = Readonly<{
   currentPath: string
   history: History
 }>
 
-function App ({ history, currentPath }: Props) {
+const selectProps = (state: State) => ({
+  history: state.history,
+  currentPath: state.router.location.pathname
+})
+
+export default function App () {
+  const { history, currentPath } = useAppSelector(selectProps)
+
   return (
     <ConnectedRouter history={history}>
       <Navbar currentPath={currentPath} />
@@ -21,10 +28,3 @@ function App ({ history, currentPath }: Props) {
     </ConnectedRouter>
   )
 }
-
-export const mapStateToProps = (state: State): Props => ({
-  history: state.history,
-  currentPath: state.router.location.pathname
-})
-
-export default connect(mapStateToProps)(App)

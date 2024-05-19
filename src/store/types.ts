@@ -3,10 +3,11 @@ import { type History } from 'history'
 import { type SetupState, type SetupActionType } from '../setup/setupReducer'
 import { type GameListActionType, type GameListState } from '../game-list/gameListReducer'
 import { type GameActionType, type GameState } from '../game/gameReducer'
+import { type GameStatsActionType, type GameStatsState } from '../game-stats/gameStatsReducer'
 
 type UnknownActionType = 'unknown'
 
-export type ActionType = SetupActionType | GameListActionType | GameActionType | UnknownActionType
+export type ActionType = SetupActionType | GameListActionType | GameStatsActionType | GameActionType | UnknownActionType
 
 export type Action<T> = Readonly<{
   type: ActionType
@@ -16,6 +17,7 @@ export type Action<T> = Readonly<{
 export type State = Readonly<{
   setup: SetupState
   gameList: GameListState
+  gameStats: GameStatsState
   game: GameState
   router: RouterState
   history: History
