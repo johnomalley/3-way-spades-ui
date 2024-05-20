@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { type State } from '../store/types'
+import { type State } from '../store/storeTypes'
 import { gameGet } from './gameActions'
 import { type PlayerView } from './gameReducer'
 import WaitSpinner from '../common/WaitSpinner'

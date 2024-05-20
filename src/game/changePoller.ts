@@ -1,5 +1,5 @@
 import { type Dispatch } from 'redux'
-import { type State } from '../store/types'
+import { type State } from '../store/storeTypes'
 import api from '../api/api'
 import { gameUpdate } from './gameActions'
 

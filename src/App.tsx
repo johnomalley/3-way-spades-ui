@@ -1,7 +1,7 @@
 import React from 'react'
 import { type History } from 'history'
 import { ConnectedRouter } from 'connected-react-router'
-import { type State } from './store/types'
+import { type State } from './store/storeTypes'
 import Routes from './Routes'
 import Navbar from './Navbar'
 import { useAppSelector } from './store/createStore'

@@ -1,7 +1,7 @@
 import { applyMiddleware, combineReducers, createStore, type Middleware } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import { type History } from 'history'
-import { type State } from './types'
+import { type State } from './storeTypes'
 import rootSaga from './rootSaga'
 import setupReducer from '../setup/setupReducer'
 import createMiddleware from './createMiddleware'

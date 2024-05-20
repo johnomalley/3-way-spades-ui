@@ -1,6 +1,6 @@
-import { type Suit } from '../common/types'
+import { type Suit } from '../common/commonTypes'
 import nullAction from '../store/nullAction'
-import { type Action } from '../store/types'
+import { type Action } from '../store/storeTypes'
 import {
   type gameActions,
   gameBid,

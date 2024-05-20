@@ -5,9 +5,9 @@ import { type GameListActionType, type GameListState } from '../game-list/gameLi
 import { type GameActionType, type GameState } from '../game/gameReducer'
 import { type GameStatsActionType, type GameStatsState } from '../game-stats/gameStatsReducer'
 
-type UnknownActionType = 'unknown'
+type NullActionType = 'null'
 
-export type ActionType = SetupActionType | GameListActionType | GameStatsActionType | GameActionType | UnknownActionType
+export type ActionType = SetupActionType | GameListActionType | GameStatsActionType | GameActionType | NullActionType
 
 export type Action<T> = Readonly<{
   type: ActionType

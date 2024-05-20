@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Suit } from './common/types'
+import { Suit } from './common/commonTypes'
 import SuitSymbol from './common/SuitSymbol'
 import classNames from 'classnames'
 

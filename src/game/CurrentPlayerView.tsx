@@ -55,17 +55,13 @@ export default function CurrentPlayerView ({ playerView, busy, bidRange, bid, se
           <div className='buttons'>
             {
               playerView.phase === HandPhase.Bidding
-                ? (
-                  <BidButtons
+                ? <BidButtons
                     playerView={playerView} busy={busy}
                     bidRange={bidRange} bid={bid} dispatch={dispatch}
                   />
-                  )
-                : (
-                  <button {...playButtonProps}>
+                : <button {...playButtonProps}>
                     Play
                   </button>
-                  )
             }
           </div>
         </div>

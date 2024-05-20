@@ -3,7 +3,7 @@ import React from 'react'
 import { type Card as CardType, HandPhase, type PlayerView } from './gameReducer'
 import Card from './Card'
 import { gameSelectCard } from './gameActions'
-import { Suit } from '../common/types'
+import { Suit } from '../common/commonTypes'
 import groupBy from 'lodash/groupBy'
 
 type Props = Readonly<{

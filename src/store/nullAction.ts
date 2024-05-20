@@ -1,7 +1,7 @@
-import { type Action } from './types'
+import { type Action } from './storeTypes'
 
 const nullAction: Action<never> = {
-  type: 'unknown'
+  type: 'null'
 }
 
 export default nullAction

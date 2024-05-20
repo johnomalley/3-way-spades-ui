@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import GameList from './game-list/GameList'
 import { useDispatch } from 'react-redux'
-import { type State } from './store/types'
+import { type State } from './store/storeTypes'
 import { gameListGet } from './game-list/gameListActions'
 import WaitSpinner from './common/WaitSpinner'
 import { gameStatsGet } from './game-stats/gameStatsActions'

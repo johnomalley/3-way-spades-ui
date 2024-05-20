@@ -1,4 +1,4 @@
-import { type Action } from '../store/types'
+import { type Action } from '../store/storeTypes'
 import nullAction from '../store/nullAction'
 import { type gameListActions, gameListError, gameListGet, gameListUpdate } from './gameListActions'
 

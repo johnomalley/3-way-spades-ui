@@ -1,5 +1,5 @@
 import nullAction from '../store/nullAction'
-import { type Action } from '../store/types'
+import { type Action } from '../store/storeTypes'
 import { credentialsUpdate, type setupActions } from './setupActions'
 
 export type SetupActionType = typeof setupActions[number]
