@@ -31,6 +31,14 @@ export enum HandPhase {
   Complete = 2
 }
 
+export type PlayerViewPlayer = Readonly<{
+  name: string
+  points: number
+  pointsPerHand: readonly number[]
+  bid?: number
+  trickCount: number
+}>
+
 export type PlayerView = Readonly<{
   gameId: string
   startTime: string
@@ -39,13 +47,7 @@ export type PlayerView = Readonly<{
   playerNumber: number
   phase: HandPhase
   currentPlayerNumber: number
-  players: ReadonlyArray<Readonly<{
-    name: string
-    points: number
-    pointsPerHand: readonly number[]
-    bid?: number
-    trickCount: number
-  }>>
+  players: readonly PlayerViewPlayer[]
   cardsVisible: boolean
   cardsInHand: readonly Card[]
   cardsPlayed: readonly Card[]
@@ -111,7 +113,7 @@ const withCardsPlayable = (playerView: PlayerView): PlayerView => playerView.car
 const maybeSelectCard = (gameState: GameState): GameState =>
   gameState.playerView!.cardsPlayable.length === 1 ? { ...gameState, selectedCard: gameState.playerView!.cardsPlayable[0] } : gameState
 
-export default (state: GameState = initialState, action: Action<unknown> = nullAction) => {
+export default (state: GameState = initialState, action: Action<unknown> = nullAction): GameState => {
   switch (action.type) {
     case gameGet:
       return {
@@ -122,7 +124,7 @@ export default (state: GameState = initialState, action: Action<unknown> = nullA
     case gameSelectCard:
       return {
         ...state,
-        selectedCard: action.payload
+        selectedCard: action.payload as Card | undefined
       }
     case gameUpdate:
       return maybeSelectCard({
@@ -133,7 +135,7 @@ export default (state: GameState = initialState, action: Action<unknown> = nullA
     case gameUpdateBid:
       return {
         ...state,
-        bid: action.payload
+        bid: action.payload as number
       }
     case gameScrollBid:
       return {
@@ -156,7 +158,7 @@ export default (state: GameState = initialState, action: Action<unknown> = nullA
       return {
         ...state,
         busy: false,
-        error: action.payload
+        error: action.payload as Error
       }
     default:
       return state

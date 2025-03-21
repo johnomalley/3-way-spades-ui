@@ -22,9 +22,7 @@ export default function App () {
   return (
     <ConnectedRouter history={history}>
       <Navbar currentPath={currentPath} />
-      <div className='main-content'>
-        <Routes />
-      </div>
+      <Routes />
     </ConnectedRouter>
   )
 }

@@ -12,10 +12,10 @@ export default function Navbar ({ currentPath }: Props) {
   return (
     <nav className='navbar is-light' role='navigation' aria-label='main navigation'>
       <div className='navbar-brand'>
-        <Link className={classNames('navbar-item', { 'is-active': currentPath !== '/setup' })} to='/'>
+        <Link className={classNames('navbar-item', { 'is-active': currentPath === '/games' })} to='/'>
           <SuitSymbol suit={Suit.Spades} />
           &nbsp;
-          Play Game
+          Home
         </Link>
         <Link className={classNames('navbar-item', { 'is-active': currentPath === '/setup' })} to='/setup'>
           <i className='fas fa-cog' />

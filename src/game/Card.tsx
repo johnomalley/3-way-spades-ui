@@ -9,6 +9,8 @@ type Props = Readonly<{
   className?: string
   selected?: boolean
   onClick?: (card: CardType, clickCount: number) => void
+  playerInitial?: string
+  winner?: boolean
 }>
 
 const rankSymbol = (rank: number): string => {
@@ -26,7 +28,7 @@ const rankSymbol = (rank: number): string => {
   }
 }
 
-export default function Card ({ card, unplayable, className, selected, onClick }: Props) {
+export default function Card ({ card, unplayable, className, selected, onClick, playerInitial, winner }: Props) {
   // noinspection JSUnusedGlobalSymbols
   const clickProps = onClick && !unplayable
     ? {
@@ -39,18 +41,24 @@ export default function Card ({ card, unplayable, className, selected, onClick }
     'playing-card',
     className,
     {
-      selectable: Boolean(clickProps.onClick),
+      selectable: Boolean(clickProps.onClick) && !selected,
       unplayable,
-      selected
+      selected,
+      winner
     }
   )
 
   return (
     <div className={classes} {...clickProps}>
-      <span className='rank'>
-        {rankSymbol(card.rank)}
-      </span>
-      <SuitSymbol suit={card.suit} />
+      <div>
+        <span className='rank'>
+          {rankSymbol(card.rank)}
+        </span>
+        <SuitSymbol suit={card.suit} />
+      </div>
+      {
+        playerInitial ? <div className='player-initial'>{playerInitial}</div> : undefined
+      }
     </div>
   )
 }

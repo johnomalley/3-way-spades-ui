@@ -7,9 +7,13 @@ type Props = Readonly<{
 }>
 
 export default function SetupForm ({ apiKey, playerId, onChange }: Props) {
-  const onApiKeyChanged = (event: ChangeEvent<HTMLInputElement>) => { onChange('apiKey', event.target.value) }
+  const onApiKeyChanged = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange('apiKey', event.target.value)
+  }
 
-  const onPlayerIdChanged = (event: ChangeEvent<HTMLInputElement>) => { onChange('playerId', event.target.value) }
+  const onPlayerIdChanged = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange('playerId', event.target.value.toLowerCase())
+  }
 
   return (
     <div className='card'>
@@ -23,18 +27,22 @@ export default function SetupForm ({ apiKey, playerId, onChange }: Props) {
           <div className='control'>
             <input
               className='input'
+              autoCorrect='off'
+              autoComplete='off'
               type='text'
               value={apiKey ?? ''}
               onChange={onApiKeyChanged}
             />
           </div>
         </div>
-        <div className='field'>
+        <div className='field mt-4'>
           <label className='label'>Player ID</label>
           <div className='control'>
             <input
               className='input'
               type='text'
+              autoCorrect='off'
+              autoComplete='off'
               value={playerId ?? ''}
               onChange={onPlayerIdChanged}
             />

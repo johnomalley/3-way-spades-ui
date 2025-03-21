@@ -13,7 +13,7 @@ export default function SetupPage () {
     dispatch({ type: credentialsSave, payload: { [propertyName]: value } })
 
   return (
-    <div className='columns p-4'>
+    <div className='columns p-4 setup-page'>
       <div className='column is-half'>
         <SetupForm onChange={onFormFieldChange} {...{ apiKey, playerId }} />
       </div>

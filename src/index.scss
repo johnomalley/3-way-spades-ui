@@ -1,4 +1,14 @@
-@import "../node_modules/bulma/bulma";
+@import "../node_modules/bulma/sass/_index.scss";
+
+.navbar {
+  .navbar-brand {
+    .navbar-item {
+      &.is-active {
+        background-color: lighten($info, 20%);
+      }
+    }
+  }
+}
 
 .home {
   display: flex;
@@ -32,7 +42,7 @@
       }
     }
     tr.shaded {
-      background-color: #e8f8f6;
+      background-color: #111111;
     }
   }
 }
@@ -43,30 +53,6 @@
   }
 }
 
-.playing-card {
-  user-select: none;
-  -webkit-user-select: none;
-  border: 1px solid #aaa;
-  border-radius: 3px;
-  padding: 4px 4px  16px;
-  min-width: 43px;
-  min-height: 46px;
-  display: inline-block;
-  margin-left: 2px;
-  margin-bottom: 2px;
-  .suit-icon {
-    margin-left: 2px;
-  }
-  &.face-down {
-    background-color: lighten($info, 40%);
-  }
-  &.invisible {
-    visibility: hidden;
-  }
-  &.playable {
-    opacity: 1;
-  }
-}
 
 .player-summary {
   .points, .bid, .trick-count {
@@ -100,33 +86,68 @@
     }
   }
   &.active {
-    background-color: lighten($info, 20%);
+    background-color: $info;
     .player-name {
-      color: white;
+      color: black;
     }
   }
 }
 
-.current-player {
-  .player-hand {
-    .playing-card {
-      &.unplayable {
-        opacity: 0.5;
-      }
+.playing-card {
+  user-select: none;
+  -webkit-user-select: none;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  padding: 4px 4px 4px;
+  min-width: 43px;
+  min-height: 46px;
+  display: inline-block;
+  margin-left: 2px;
+  margin-bottom: 2px;
+  color: $black;
+  background-color: #f0f0f0;
 
-      &.selectable {
-        cursor: pointer;
+  &.face-down {
+    background-color: lighten($info, 40%);
+  }
+  &.invisible {
+    visibility: hidden;
+  }
+  &.playable {
+    opacity: 1;
+  }
+  .player-initial {
+    width: 100%;
+    text-align: center;
+    font-size: 80%;
+  }
+  &.unplayable {
+    opacity: 0.5;
+  }
 
-        &:hover {
-          background-color: $light;
-        }
-      }
+  &.selectable {
+    cursor: pointer;
 
-      &.selected {
-        background-color: lighten($primary, 50%);
-      }
+    &:hover {
+      color: $green;
     }
   }
+
+  &.selected {
+    color: $white;
+    background-color: lighten($black, 20%);
+  }
+
+  &.winner {
+    background-color: lighten($primary, 30%);
+  }
+
+  .suit-icon {
+    margin-left: 2px;
+  }
+}
+
+.current-player {
   .buttons {
     margin-top: 10px;
     .bid-button {
@@ -137,14 +158,17 @@
 }
 
 .play-area {
-  .level-left {
-    .play-area-card {
-      &.lead {
-        .playing-card {
-          border: 1px solid $primary;
-        }
+  .last-trick {
+    opacity: 0.6;
+  }
+  .play-area-card {
+    &.lead {
+      .playing-card {
+        border: 2px solid $orange;
       }
     }
+  }
+  .level-left {
     .playing-card {
       margin-right: 10px;
     }
@@ -153,5 +177,11 @@
     .playing-card {
       margin-left: 10px;
     }
+  }
+}
+
+.setup-page {
+  .card-header-icon {
+    cursor: default;
   }
 }
