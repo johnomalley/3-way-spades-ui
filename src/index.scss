@@ -18,6 +18,22 @@
     flex-grow: 1;
   }
 
+  .left-panel {
+    .card {
+      button {
+        &:disabled {
+          cursor: wait;
+        }
+      }
+    }
+    .card, .wait-spinner {
+      min-height: 150px;
+    }
+    i.fa-spinner {
+      font-size: 200%;
+    }
+  }
+
   .leader-board {
     .player-1 {
       font-size: 150%;
@@ -33,16 +49,9 @@
     overflow-y: auto;
     table {
       width: 100%;
-      thead {
-        tr {
-          td {
-            font-weight: bold;
-          }
-        }
+      tr.shaded {
+        background-color: #303030;
       }
-    }
-    tr.shaded {
-      background-color: #111111;
     }
   }
 }

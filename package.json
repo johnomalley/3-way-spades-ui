@@ -4,6 +4,7 @@
   "description": "web UI for 3 way spades",
   "scripts": {
     "dev": "npm start",
+    "dev:local": "BASE_URL=http://localhost:3000 npm start",
     "start": "parcel -p 3002 src/index.html",
     "clean": "rm -rf dist",
     "build": "NODE_ENV=production npm run clean && parcel build src/index.html",
@@ -12,8 +13,6 @@
     "deploy:only": "npm run deploy:html && npm run deploy:sync",
     "deploy": "npm run build && npm run deploy:only",
     "lint": "eslint \"src/**\" --fix --cache --cache-location .eslintcache/",
-    "test": "jest",
-    "test:dev": "jest --watch",
     "build-bulma": "sass --load-path=node_modules src/index.scss src/index.css"
   },
   "repository": {
@@ -32,26 +31,26 @@
   },
   "homepage": "https://github.com/johnomalley/3-way-spades-ui#readme",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "~6.5.2",
-    "@parcel/transformer-sass": "~2.12.0",
-    "@types/lodash": "~4.17.4",
-    "@types/luxon": "~3.4.2",
-    "@types/react": "~17.0.80",
-    "@types/react-dom": "~18.3.0",
-    "@types/react-redux": "~7.1.33",
+    "@fortawesome/fontawesome-free": "~6.7.2",
+    "@parcel/transformer-sass": "~2.14.4",
+    "@types/lodash": "~4.17.16",
+    "@types/luxon": "~3.6.2",
+    "@types/react": "~17.0.85",
+    "@types/react-dom": "~17.0.26",
+    "@types/react-redux": "~7.1.34",
     "@types/react-router-dom": "~5.3.3",
     "@types/redux-logger": "~3.0.13",
-    "@types/superagent": "~8.1.7",
+    "@types/superagent": "~8.1.9",
     "@typescript-eslint/eslint-plugin": "~7.10.0",
-    "bulma": "~1.0.1",
+    "bulma": "~1.0.3",
     "classnames": "~2.5.1",
     "connected-react-router": "~6.9.3",
     "eslint": "~8.56.0",
     "eslint-config-love": "~47.0.0",
     "history": "~4.10.1",
     "lodash": "~4.17.21",
-    "luxon": "~3.4.4",
-    "parcel": "~2.12.0",
+    "luxon": "~3.6.1",
+    "parcel": "~2.14.4",
     "react": "~17.0.2",
     "react-dom": "~17.0.2",
     "react-redux": "~7.2.9",
@@ -59,12 +58,9 @@
     "redux": "~4.2.1",
     "redux-logger": "~3.0.6",
     "redux-saga": "~1.3.0",
-    "sass": "~1.77.2",
-    "superagent": "~9.0.2",
+    "sass": "~1.86.3",
+    "superagent": "~10.2.0",
     "ts-node": "~10.9.2",
-    "typescript": "~5.4.5"
-  },
-  "devDependencies": {
-    "process": "~0.11.10"
+    "typescript": "~5.8.3"
   }
 }

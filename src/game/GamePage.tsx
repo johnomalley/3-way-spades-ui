@@ -13,8 +13,8 @@ import { useAppSelector } from '../store/createStore'
 import { type RouteComponentProps } from 'react-router-dom'
 import { push } from 'connected-react-router'
 
-const selectProps = ({ setup: { credentialsValid }, game }: State) => ({
-  credentialsValid,
+const selectProps = ({ setup, game }: State) => ({
+  setupStatus: setup.status,
   playerView: game.playerView,
   busy: game.busy,
   selectedCard: game.selectedCard,
@@ -38,7 +38,7 @@ export default function GamePage ({ match }: RouteComponentProps<{ id: string }>
   const dispatch = useDispatch()
 
   const {
-    credentialsValid,
+    setupStatus,
     playerView,
     busy,
     selectedCard,
@@ -47,17 +47,16 @@ export default function GamePage ({ match }: RouteComponentProps<{ id: string }>
   } = useAppSelector(selectProps)
 
   useEffect(() => {
-    if (credentialsValid) {
+    if (setupStatus === 'invalid') {
+      dispatch(push('/setup'))
+    } else if (setupStatus === 'initialized') {
       dispatch({ type: gameGet, payload: match.params.id })
       changePoller.start()
-
       return () => {
         changePoller.stop()
       }
-    } else {
-      dispatch(push('/setup'))
     }
-  }, [])
+  }, [dispatch, setupStatus])
 
   return (
     <div className='game p-4'>
@@ -85,7 +84,7 @@ export default function GamePage ({ match }: RouteComponentProps<{ id: string }>
               </div>
             </>
             )
-          : <WaitSpinner />
+          : <WaitSpinner className='pt-4' />
       }
     </div>
   )

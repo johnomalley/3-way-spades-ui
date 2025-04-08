@@ -1,10 +1,18 @@
 import { type Action } from '../store/storeTypes'
 import nullAction from '../store/nullAction'
-import { type gameListActions, gameListError, gameListGet, gameListUpdate } from './gameListActions'
+import {
+  type gameListActions,
+  gameListClearDeletedGame,
+  gameListConfirmDelete,
+  gameListDelete,
+  gameListError,
+  gameListGet,
+  gameListUpdate
+} from './gameListActions'
 
-export type Player = Readonly<{
+export type GamePlayer = Readonly<{
   id: string
-  name: string
+  displayName: string
   number: number
   points: number
 }>
@@ -15,7 +23,7 @@ export type Game = Readonly<{
   endTime?: string
   timestamp: number
   winningScore: number
-  players: readonly Player[]
+  players: readonly GamePlayer[]
   handCount: number
 }>
 
@@ -23,6 +31,7 @@ export type GameListState = Readonly<{
   games: readonly Game[]
   busy: boolean
   error?: Error
+  deleteGameId?: string
 }>
 
 const initialState: GameListState = {
@@ -31,6 +40,8 @@ const initialState: GameListState = {
 }
 
 export type GameListActionType = typeof gameListActions[number]
+
+const clearDeletedGame = ({ deleteGameId, ...rest }: GameListState): GameListState => rest
 
 export default (state: GameListState = initialState, action: Action<unknown> = nullAction): GameListState => {
   switch (action.type) {
@@ -53,6 +64,15 @@ export default (state: GameListState = initialState, action: Action<unknown> = n
         busy: false,
         error: action.payload as Error
       }
+    case gameListDelete:
+      return {
+        ...state,
+        deleteGameId: action.payload as string
+      }
+    case gameListConfirmDelete:
+      return { ...state, busy: true }
+    case gameListClearDeletedGame:
+      return clearDeletedGame(state)
     default:
       return state
   }

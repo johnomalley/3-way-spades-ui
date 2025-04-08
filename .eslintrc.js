@@ -14,6 +14,9 @@ module.exports = {
     ],
     '@typescript-eslint/no-non-null-assertion': [
       'off'
+    ],
+    '@typescript-eslint/no-confusing-void-expression': [
+      'off'
     ]
   },
   parserOptions: {

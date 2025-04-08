@@ -1,19 +1,19 @@
-import { call, put, takeEvery, select } from 'redux-saga/effects'
+import { call, put, takeEvery, select, type SelectEffect, type CallEffect, type PutEffect } from 'redux-saga/effects'
 import api from '../api/api'
 import { gameBid, gameError, gameGet, gamePlay, gameShowCards, gameUpdate } from './gameActions'
 import push from '../common/push'
 import { type Action, type State } from '../store/storeTypes'
 import isNotFound from '../api/isNotFound'
-import { type Card } from './gameReducer'
+import { type Card, type PlayerView } from './gameReducer'
+import selectPlayer from '../setup/selectPlayer'
+import { type Player } from '../setup/setupReducer'
 
 const putError = (error: Error) => put({ type: gameError, payload: error })
 
-const getPlayerId = ({ setup: { playerId } }: State) => playerId
-
-export function * getGame ({ payload }: Action<string>): any {
+export function * getGame ({ payload }: Action<string>): Generator<SelectEffect | CallEffect | PutEffect, void, Player | PlayerView> {
   try {
-    const playerId = yield select(getPlayerId)
-    const playerView = yield call(api.get, `game/${payload}/player/${playerId}`)
+    const player = yield select(selectPlayer)
+    const playerView = yield call(api.get, `game/${payload}/player/${(player as Player).id}`)
     yield put({ type: gameUpdate, payload: playerView })
   } catch (error) {
     if (isNotFound(error)) {
@@ -24,15 +24,15 @@ export function * getGame ({ payload }: Action<string>): any {
   }
 }
 
-const getGamePath = (state: State) =>
-  `game/${state.game.playerView!.gameId}/player/${state.setup.playerId}`
+const getGamePath = ({ game, setup: { credentials: { playerId } } }: State) =>
+  `game/${game.playerView!.gameId}/player/${playerId}`
 
 type PostArgs = Readonly<{
   path: string
   body: object
 }>
 
-function * post ({ path, body }: PostArgs): unknown {
+function * post ({ path, body }: PostArgs): Generator<CallEffect | PutEffect> {
   try {
     const playerView = yield call(api.post, path, body)
     yield put({ type: gameUpdate, payload: playerView })
@@ -50,7 +50,7 @@ export function * showCards (): any {
   yield post(args as PostArgs)
 }
 
-export function * bid ({ payload }: Action<number>): any {
+export function * bid ({ payload }: Action<number>): Generator<SelectEffect | Generator> {
   const getBidArgs = (state: State) => ({
     path: `${getGamePath(state)}/bid`,
     body: { value: payload }
@@ -59,7 +59,7 @@ export function * bid ({ payload }: Action<number>): any {
   yield post(args as PostArgs)
 }
 
-export function * play ({ payload }: Action<Card>): any {
+export function * play ({ payload }: Action<Card>): Generator<SelectEffect | CallEffect | Generator> {
   const getPlayArgs = (state: State) => ({
     path: `${getGamePath(state)}/play`,
     body: payload

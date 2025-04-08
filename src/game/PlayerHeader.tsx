@@ -4,6 +4,8 @@ import bidString from './bidString'
 import WaitSpinner from '../common/WaitSpinner'
 import last from 'lodash/last'
 import classNames from 'classnames'
+import { useAppSelector } from '../store/createStore'
+import selectPlayersById from '../setup/selectPlayersById'
 
 type Props = Readonly<{
   playerView: PlayerView
@@ -12,7 +14,9 @@ type Props = Readonly<{
 }>
 
 export default function PlayerHeader ({ playerView, busy, playerNumber }: Props) {
+  const playersById = useAppSelector(selectPlayersById)
   const player = playerView.players[playerNumber]
+  const playerName = playersById[player.id].displayName
   const { phase, tricks } = playerView
   const lastTrick = last(tricks)
   const remainingTrickCount = 17 - tricks.length + (!lastTrick || lastTrick.cards.length === 3 ? 0 : 1)
@@ -54,14 +58,9 @@ export default function PlayerHeader ({ playerView, busy, playerNumber }: Props)
       <div className='card-header-title level'>
         <div className='level-left'>
           <div className='level-item player-name'>
-            {player.name}
+            {playerName}
           </div>
-          {
-            player.points === 0
-              ? undefined
-              : <div className='level-item points'>{String(player.points)}</div>
-
-          }
+          <div className='level-item points'>{String(player.points)}</div>
           {
             player.bid === undefined
               ? undefined

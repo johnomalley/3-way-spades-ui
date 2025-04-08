@@ -32,7 +32,7 @@ export enum HandPhase {
 }
 
 export type PlayerViewPlayer = Readonly<{
-  name: string
+  id: string
   points: number
   pointsPerHand: readonly number[]
   bid?: number

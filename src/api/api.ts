@@ -24,8 +24,13 @@ const post = async (path: string, requestBody: object): Promise<any> => {
   return body
 }
 
+const del = async (path: string) => {
+  await agent.delete(url(path)).set(apiKeyHeader)
+}
+
 export default {
   setApiKey,
   get,
-  post
+  post,
+  delete: del
 }

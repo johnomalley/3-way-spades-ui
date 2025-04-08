@@ -4,6 +4,7 @@ import { type History } from 'history'
 import React from 'react'
 import createStore from './store/createStore'
 import App from './App'
+import { credentialsInit } from './setup/setupActions'
 
 interface Args {
   element: HTMLElement
@@ -14,7 +15,7 @@ interface Args {
 export default ({ element, render, history }: Args) => {
   const store = createStore(history)
 
-  store.dispatch({ type: 'credentials/init' })
+  store.dispatch({ type: credentialsInit })
 
   const rootContent = (
     <Provider store={store}>

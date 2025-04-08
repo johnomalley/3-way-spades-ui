@@ -3,6 +3,8 @@ import { type Card, type PlayerView, type Trick } from './gameReducer'
 import PlayAreaCard from './PlayAreaCard'
 import last from 'lodash/last'
 import LastTrick from './LastTrick'
+import { useAppSelector } from '../store/createStore'
+import selectPlayersById from '../setup/selectPlayersById'
 
 type Props = Readonly<{
   playerView: PlayerView
@@ -22,6 +24,7 @@ const getCardsByPlayerNumber = (trick?: Trick): CardByPlayerNumber => {
 }
 
 export default function PlayArea ({ playerView }: Props) {
+  const playersById = useAppSelector(selectPlayersById)
   const { tricks, players, playerNumber } = playerView
   const trick = last(tricks)
   const cardsByPlayerNumber = getCardsByPlayerNumber(trick)
@@ -29,6 +32,10 @@ export default function PlayArea ({ playerView }: Props) {
   const rightPlayerNumber = (playerNumber + 1) % 3
   const leader = trick ? trick.leader : -1
   const winner = trick ? trick.winner : -1
+
+  const leftPlayer = playersById[players[leftPlayerNumber].id]
+  const rightPlayer = playersById[players[rightPlayerNumber].id]
+
   return (
     <div className='column is-half play-area'>
       <div className='card'>
@@ -46,7 +53,8 @@ export default function PlayArea ({ playerView }: Props) {
               <PlayAreaCard
                 lead={leftPlayerNumber === leader}
                 winner={leftPlayerNumber === winner}
-                side='left' playerName={players[leftPlayerNumber].name}
+                side='left'
+                playerName={leftPlayer.displayName}
                 card={cardsByPlayerNumber[leftPlayerNumber]}
               />
             </div>
@@ -54,7 +62,8 @@ export default function PlayArea ({ playerView }: Props) {
               <PlayAreaCard
                 lead={rightPlayerNumber === leader}
                 winner={rightPlayerNumber === winner}
-                side='right' playerName={players[rightPlayerNumber].name}
+                side='right'
+                playerName={rightPlayer.displayName}
                 card={cardsByPlayerNumber[rightPlayerNumber]}
               />
             </div>

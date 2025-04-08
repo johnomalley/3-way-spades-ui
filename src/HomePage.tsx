@@ -11,12 +11,13 @@ import { push } from 'connected-react-router'
 import ErrorOverlay from './common/ErrorOverlay'
 import LeaderBoard from './game-stats/LeaderBoard'
 
-export const selectProps = ({ setup: { credentialsValid }, gameList, gameStats }: State) => ({
+export const selectProps = ({ setup, gameList, gameStats }: State) => ({
   games: gameList.games,
   busy: Boolean(gameList.busy || !gameStats.summary),
   error: gameList.error ?? gameStats.error,
   summary: gameStats.summary,
-  credentialsValid
+  setupStatus: setup.status,
+  players: setup.players
 })
 
 export default function HomePage () {
@@ -25,19 +26,20 @@ export default function HomePage () {
     busy,
     error,
     summary,
-    credentialsValid
+    setupStatus,
+    players
   } = useAppSelector(selectProps)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (credentialsValid) {
+    if (setupStatus === 'invalid') {
+      dispatch(push('/setup'))
+    } else if (setupStatus === 'initialized') {
       dispatch({ type: gameListGet })
       dispatch({ type: gameStatsGet })
-    } else {
-      dispatch(push('/setup'))
     }
-  }, [])
+  }, [dispatch, setupStatus])
 
   return (
       <div className='home p-4'>
@@ -47,15 +49,13 @@ export default function HomePage () {
             : (
               <>
                 <div className='left-panel p-2'>
-                  {
-                    busy
-                      ? <WaitSpinner />
-                      : <GameList games={games} />
-                  }
-                  {summary && <LeaderBoard summary={summary} />}
+                  <div className='pb-4'>
+                    {busy ? <WaitSpinner className='pt-4' /> : <GameList games={games} />}
+                  </div>
+                  {summary && <LeaderBoard summary={summary} players={players} />}
                 </div>
                 <div className='right-panel'>
-                  {summary && <RecentGames summary={summary} />}
+                  {summary && <RecentGames summary={summary} players={players} />}
                 </div>
               </>
               )

@@ -1,11 +1,14 @@
 import React from 'react'
 import { DateTime } from 'luxon'
 import { type GameStats } from './gameStatsReducer'
-import upCase from '../common/upCase'
+import { type Player, type PlayersById } from '../setup/setupReducer'
+import classNames from 'classnames'
 
 type Props = Readonly<{
   stats: GameStats
   index: number
+  currentPlayer: Player
+  players: PlayersById
 }>
 
 const getDateString = (date: string): string => DateTime.fromISO(date).toLocaleString(DateTime.DATE_FULL)
@@ -20,14 +23,14 @@ const getStartAndEndDateString = (stats: GameStats) => {
   }
 }
 
-export default function RecentGameRow ({ stats, index }: Props) {
+export default function RecentGameRow ({ stats, index, currentPlayer, players }: Props) {
   return (
     <tr className={index % 2 === 0 ? 'shaded' : undefined}>
       <td>
         {getStartAndEndDateString(stats)}
       </td>
-      <td>
-        {stats.winners.map(upCase).join(' & ')}
+      <td className={classNames({ 'has-text-weight-bold has-text-success': stats.winners.some(_ => currentPlayer.id === _) })}>
+        {stats.winners.map(id => players[id].displayName).join(' & ')}
       </td>
     </tr>
   )

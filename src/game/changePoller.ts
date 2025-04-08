@@ -8,22 +8,27 @@ type Config = Readonly<{
   getState: () => State
 }>
 
-interface PollerState {
+type PollerState = Readonly<{
   running: boolean
   timeout: number
   ticks: number
   lastTimestamp: number
-}
+}>
 
-const initialPollerState: PollerState = Object.freeze({
+const initialPollerState: PollerState = {
   running: false,
   timeout: 0,
   ticks: 0,
   lastTimestamp: 0
-})
+}
 
-let pollerState: PollerState = {
-  ...initialPollerState
+let pollerState: PollerState = initialPollerState
+
+const updatePollerState = (update: Partial<PollerState>) => {
+  pollerState = {
+    ...pollerState,
+    ...update
+  }
 }
 
 let config: Config
@@ -47,18 +52,17 @@ const getCurrentDelay = () => {
 
 const poll = async () => {
   try {
-    const { setup: { playerId }, game: { playerView } } = config.getState()
+    const { setup: { credentials: { playerId } }, game: { playerView } } = config.getState()
     if (playerView) {
       const { gameId, timestamp } = playerView
       const { update } = await api.get(`poll/${gameId}/${playerId}/${timestamp}`)
       if (update) {
         config.dispatch({ type: gameUpdate, payload: update })
-        pollerState.ticks = 0
+        updatePollerState({ ticks: 0 })
       } else if (pollerState.lastTimestamp === timestamp) {
-        pollerState.ticks++
+        updatePollerState({ ticks: pollerState.ticks + 1 })
       } else {
-        pollerState.lastTimestamp = timestamp
-        pollerState.ticks = 0
+        updatePollerState({ lastTimestamp: timestamp, ticks: 0 })
       }
     }
     pollNext()
@@ -68,25 +72,22 @@ const poll = async () => {
 }
 
 const pollNext = () => {
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  pollerState.timeout = window.setTimeout(poll, getCurrentDelay())
+  updatePollerState({
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    timeout: window.setTimeout(poll, getCurrentDelay())
+  })
 }
 
 const start = () => {
   if (!pollerState.running) {
-    pollerState = {
-      ...initialPollerState,
-      running: true
-    }
+    updatePollerState({ running: true })
     pollNext()
   }
 }
 
 const stop = () => {
-  clearTimeout(pollerState.timeout)
-  pollerState = {
-    ...initialPollerState
-  }
+  window.clearTimeout(pollerState.timeout)
+  pollerState = initialPollerState
 }
 
 export default {

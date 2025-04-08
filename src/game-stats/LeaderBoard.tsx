@@ -1,16 +1,22 @@
 import { type GameStatsSummary } from './gameStatsReducer'
 import React, { useMemo } from 'react'
-import upCase from '../common/upCase'
 import sortBy from 'lodash/sortBy'
+import { type PlayersById } from '../setup/setupReducer'
+import classNames from 'classnames'
+import { useAppSelector } from '../store/createStore'
+import selectPlayer from '../setup/selectPlayer'
 
 type Props = Readonly<{
   summary: GameStatsSummary
+  players: PlayersById
 }>
 
-type PlayerWins = Readonly<{ name: string, wins: number, rank: number }>
+type PlayerWins = Readonly<{ id: string, displayName: string, wins: number, rank: number }>
 
-const getPlayerWins = ({ winCounts }: GameStatsSummary): readonly PlayerWins[] => {
-  const wins: PlayerWins[] = Object.keys(winCounts).map((id => ({ name: upCase(id), wins: winCounts[id], rank: 1 })))
+const getPlayerWins = ({ winCounts }: GameStatsSummary, players: PlayersById): readonly PlayerWins[] => {
+  const wins: PlayerWins[] = Object.keys(winCounts).map((id =>
+    ({ id, displayName: players[id].displayName, wins: winCounts[id], rank: 1 }))
+  )
   const results = sortBy(wins, _ => -1 * _.wins)
   for (let i = 1; i < results.length; i++) {
     const result = results[i]
@@ -26,8 +32,13 @@ const getPlayerWins = ({ winCounts }: GameStatsSummary): readonly PlayerWins[] =
   return results
 }
 
-export default function LeaderBoard ({ summary }: Props) {
-  const playerWins = useMemo(() => getPlayerWins(summary), [summary])
+export default function LeaderBoard ({ summary, players }: Props) {
+  const currentPlayer = useAppSelector(selectPlayer)
+
+  const playerWins = useMemo(
+    () => getPlayerWins(summary, players),
+    [summary, players]
+  )
 
   return (
     <article className='message is-info leader-board'>
@@ -36,8 +47,10 @@ export default function LeaderBoard ({ summary }: Props) {
       </div>
       <div className='message-body'>
         {
-          playerWins.map(({ name, wins, rank }) => <
-            div key={name} className={`player-${rank}`}>{name} {wins}</div>
+          playerWins.map(({ id, displayName, wins, rank }) => <
+            div key={id} className={classNames(`player-${rank}`, { 'has-text-weight-bold has-text-success': id === currentPlayer.id })}>
+              {displayName} {wins}
+            </div>
           )
         }
       </div>
