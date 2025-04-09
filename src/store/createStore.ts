@@ -1,5 +1,4 @@
-import { applyMiddleware, combineReducers, createStore, type Middleware } from 'redux'
-import { connectRouter } from 'connected-react-router'
+import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { type History } from 'history'
 import { type State } from './storeTypes'
 import rootSaga from './rootSaga'
@@ -10,18 +9,22 @@ import gameStatsReducer from '../game-stats/gameStatsReducer'
 import gameReducer from '../game/gameReducer'
 import changePoller from '../game/changePoller'
 import { type TypedUseSelectorHook, useSelector } from 'react-redux'
+import { createReduxHistoryContext } from 'redux-first-history'
 
 export const useAppSelector: TypedUseSelectorHook<State> = useSelector
 
 export default (history: History) => {
-  const middleware = createMiddleware(history)
+  const middlewareById = createMiddleware()
+  const { routerMiddleware, routerReducer } = createReduxHistoryContext({ history })
+
+  const middleware = [...Object.values(middlewareById), routerMiddleware]
 
   const rootReducer = combineReducers({
     setup: setupReducer,
     gameList: gameListReducer,
     gameStats: gameStatsReducer,
     game: gameReducer,
-    router: connectRouter(history),
+    router: routerReducer,
     history: () => history
   })
 
@@ -29,15 +32,14 @@ export default (history: History) => {
   // seriously the redux team can go f*** themselves
   // assholes
   // noinspection JSDeprecatedSymbols
-  const store = createStore(rootReducer, applyMiddleware(...Object.values(middleware) as Middleware[]))
+  const store = createStore(rootReducer, applyMiddleware(...middleware))
 
   changePoller.init({
     dispatch: store.dispatch,
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     getState: () => store.getState() as State
   })
 
-  middleware.saga.run(rootSaga)
+  middlewareById.saga.run(rootSaga)
 
   return store
 }

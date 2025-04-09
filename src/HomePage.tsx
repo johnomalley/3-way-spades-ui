@@ -7,9 +7,9 @@ import WaitSpinner from './common/WaitSpinner'
 import { gameStatsGet } from './game-stats/gameStatsActions'
 import RecentGames from './game-stats/RecentGames'
 import { useAppSelector } from './store/createStore'
-import { push } from 'connected-react-router'
 import ErrorOverlay from './common/ErrorOverlay'
 import LeaderBoard from './game-stats/LeaderBoard'
+import { push } from 'redux-first-history'
 
 export const selectProps = ({ setup, gameList, gameStats }: State) => ({
   games: gameList.games,

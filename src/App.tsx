@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { type History } from 'history'
-import { ConnectedRouter } from 'connected-react-router'
+import { HistoryRouter } from "redux-first-history/rr6"
 import { type State } from './store/storeTypes'
-import Routes from './Routes'
+import RootRoutes from './RootRoutes'
 import Navbar from './Navbar'
 import { useAppSelector } from './store/createStore'
 import { useDispatch } from 'react-redux'
@@ -26,9 +26,9 @@ export default function App () {
   }, [dispatch, status])
 
   return (
-    <ConnectedRouter history={history}>
+    <HistoryRouter history={history}>
       <Navbar />
-      <Routes />
-    </ConnectedRouter>
+      <RootRoutes />
+    </HistoryRouter>
   )
 }

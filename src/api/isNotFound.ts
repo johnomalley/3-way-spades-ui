@@ -1,1 +1,3 @@
-export default (error: any) => error?.response?.status === 404
+type ErrorWithResponse = Error & Readonly<{ response?: { status: number } }>
+
+export default (error: unknown) => (error as ErrorWithResponse)?.response?.status === 404

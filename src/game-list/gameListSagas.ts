@@ -1,13 +1,14 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { call, CallEffect, put, PutEffect, select, SelectEffect, takeEvery } from 'redux-saga/effects'
 import api from '../api/api'
 import { gameListClearDeletedGame, gameListConfirmDelete, gameListError, gameListGet, gameListNew, gameListUpdate } from './gameListActions'
 import push from '../common/push'
 import type { Action } from '../store/storeTypes'
 import selectPlayer from '../setup/selectPlayer'
+import { Player } from '../setup/setupReducer'
 
 const putError = (error: Error) => put({ type: gameListError, payload: error })
 
-export function * getGames (): any {
+export function * getGames (): Generator<CallEffect | PutEffect> {
   try {
     const games = yield call(api.get, 'games/active')
     yield put({ type: gameListUpdate, payload: games })
@@ -25,7 +26,7 @@ export function * newGame () {
   }
 }
 
-export function * confirmDeleteGame ({ payload }: Action<string>): any {
+export function * confirmDeleteGame ({ payload }: Action<string>): Generator<SelectEffect | PutEffect | CallEffect, void, Player > {
   const player = yield select(selectPlayer)
   yield put({ type: gameListClearDeletedGame })
   try {

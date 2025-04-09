@@ -17,6 +17,7 @@ const parseLocalCredentials = (): Credentials => {
     if (typeof apiKey === 'string' && typeof playerId === 'string') {
       return { apiKey: apiKey.trim(), playerId: playerId.trim().toLowerCase() }
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // bad local storage - ignore
   }

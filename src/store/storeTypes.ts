@@ -1,9 +1,9 @@
-import { type RouterState } from 'connected-react-router'
 import { type History } from 'history'
 import { type SetupState, type SetupActionType } from '../setup/setupReducer'
 import { type GameListActionType, type GameListState } from '../game-list/gameListReducer'
 import { type GameActionType, type GameState } from '../game/gameReducer'
 import { type GameStatsActionType, type GameStatsState } from '../game-stats/gameStatsReducer'
+import { RouterState } from 'redux-first-history'
 
 type NullActionType = 'null'
 

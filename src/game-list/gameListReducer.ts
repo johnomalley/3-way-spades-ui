@@ -41,6 +41,7 @@ const initialState: GameListState = {
 
 export type GameListActionType = typeof gameListActions[number]
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const clearDeletedGame = ({ deleteGameId, ...rest }: GameListState): GameListState => rest
 
 export default (state: GameListState = initialState, action: Action<unknown> = nullAction): GameListState => {

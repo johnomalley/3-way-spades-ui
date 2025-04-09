@@ -10,8 +10,8 @@ import PlayArea from './PlayArea'
 import changePoller from './changePoller'
 import range from 'lodash/range'
 import { useAppSelector } from '../store/createStore'
-import { type RouteComponentProps } from 'react-router-dom'
-import { push } from 'connected-react-router'
+import { push } from 'redux-first-history'
+import { useMatch } from 'react-router-dom'
 
 const selectProps = ({ setup, game }: State) => ({
   setupStatus: setup.status,
@@ -34,8 +34,10 @@ const getOpponentProps = (playerView?: PlayerView): readonly OpponentViewProps[]
   }
 }
 
-export default function GamePage ({ match }: RouteComponentProps<{ id: string }>) {
+export default function GamePage () {
   const dispatch = useDispatch()
+  const match = useMatch('/games/:id')
+  const gameId = match?.params.id
 
   const {
     setupStatus,
@@ -47,10 +49,10 @@ export default function GamePage ({ match }: RouteComponentProps<{ id: string }>
   } = useAppSelector(selectProps)
 
   useEffect(() => {
-    if (setupStatus === 'invalid') {
+    if (setupStatus === 'invalid' || !gameId) {
       dispatch(push('/setup'))
     } else if (setupStatus === 'initialized') {
-      dispatch({ type: gameGet, payload: match.params.id })
+      dispatch({ type: gameGet, payload: gameId })
       changePoller.start()
       return () => {
         changePoller.stop()

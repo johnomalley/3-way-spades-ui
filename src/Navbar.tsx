@@ -29,7 +29,7 @@ function NavbarLink ({ active, path, disabled, children }: NavbarLinkProps) {
 }
 
 const selectProps = ({ router, setup }: State) => ({
-  currentPath: router.location.pathname,
+  currentPath: router.location?.pathname,
   status: setup.status,
   credentials: setup.credentials
 })

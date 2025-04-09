@@ -32,7 +32,9 @@ type PostArgs = Readonly<{
   body: object
 }>
 
-function * post ({ path, body }: PostArgs): Generator<CallEffect | PutEffect> {
+type Post = Generator<CallEffect | PutEffect>
+
+function * post ({ path, body }: PostArgs): Post {
   try {
     const playerView = yield call(api.post, path, body)
     yield put({ type: gameUpdate, payload: playerView })
@@ -41,11 +43,14 @@ function * post ({ path, body }: PostArgs): Generator<CallEffect | PutEffect> {
   }
 }
 
-export function * showCards (): any {
-  const getShowArgs = (state: State) => ({
-    path: `${getGamePath(state)}/show`,
-    body: {}
-  })
+type ShowArgs = Readonly<{ path: string, body: object }>
+
+const getShowArgs = (state: State): ShowArgs => ({
+  path: `${getGamePath(state)}/show`,
+  body: {}
+})
+
+export function * showCards (): Generator<SelectEffect | CallEffect | Post, void, ShowArgs> {
   const args = yield select(getShowArgs)
   yield post(args as PostArgs)
 }
