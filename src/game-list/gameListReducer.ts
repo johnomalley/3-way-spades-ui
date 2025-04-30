@@ -19,6 +19,7 @@ export type GamePlayer = Readonly<{
 
 export type Game = Readonly<{
   id: string
+  creator?: string
   startTime: string
   endTime?: string
   timestamp: number

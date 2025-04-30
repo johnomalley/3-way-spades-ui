@@ -18,9 +18,10 @@ export function * getGames (): Generator<CallEffect | PutEffect> {
   }
 }
 
-export function * newGame (): Generator<CallEffect | PutEffect, void, { id: string }> {
+export function * newGame (): Generator<SelectEffect | CallEffect | PutEffect, void, { id: string }> {
+  const player = yield select(selectPlayer)
   try {
-    const { id } = yield call(api.post, 'new', {})
+    const { id } = yield call(api.post, 'new', { creator: player.id })
     yield put(push(`/games/${id}`))
   } catch (error) {
     yield putError(error as Error)

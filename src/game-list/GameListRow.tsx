@@ -16,11 +16,13 @@ type Props = Readonly<{
 
 export default function GameListRow ({ game, players, deleteGameId, playerId }: Props) {
   const isAdmin = players[playerId].admin
+  const creatorPlayer = game.creator ? players[game.creator] : undefined
   return (
       <tr>
         <td>
           <Link to={`/games/${game.id}`}>
             {DateTime.fromISO(game.startTime).toRelative()}
+            {creatorPlayer && ` (${creatorPlayer.displayName})`}
             <i className='fa-solid fa-arrow-right ml-2'/>
           </Link>
         </td>

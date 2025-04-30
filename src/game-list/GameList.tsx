@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { type Game } from './gameListReducer'
 import GameListRow from './GameListRow'
 import { useDispatch } from 'react-redux'
-import { gameListClearDeletedGame, gameListNew } from './gameListActions'
+import { gameListClearDeletedGame, gameListGet, gameListNew } from './gameListActions'
 import { createAppSelector, useAppSelector } from '../store/createStore'
 
 type Props = Readonly<{
@@ -38,6 +38,10 @@ export default function GameList ({ games }: Props) {
     }, newGameDelay)
   }, [dispatch])
 
+  const refreshGameList = useCallback(() => {
+    dispatch({ type: gameListGet })
+  }, [dispatch])
+
   useEffect(
     () =>
       () => {
@@ -61,6 +65,14 @@ export default function GameList ({ games }: Props) {
               disabled={newGamePending}
             >
               <i className='fas fa-plus' />
+            </button>
+            <button
+              className='button is-small ml-2'
+              title='Refresh game list'
+              onClick={refreshGameList}
+              disabled={newGamePending}
+            >
+              <i className="fa-solid fa-arrows-rotate"/>
             </button>
           </p>
         </header>
