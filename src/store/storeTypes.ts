@@ -1,9 +1,9 @@
-import { type History } from 'history'
-import { type SetupState, type SetupActionType } from '../setup/setupReducer'
-import { type GameListActionType, type GameListState } from '../game-list/gameListReducer'
-import { type GameActionType, type GameState } from '../game/gameReducer'
-import { type GameStatsActionType, type GameStatsState } from '../game-stats/gameStatsReducer'
-import { RouterState } from 'redux-first-history'
+import type { History } from 'history'
+import type { SetupState, SetupActionType } from '../setup/setupReducer'
+import type { GameListActionType, GameListState } from '../game-list/gameListReducer'
+import type { GameActionType, GameState } from '../game/gameReducer'
+import type { GameStatsActionType, GameStatsState } from '../game-stats/gameStatsReducer'
+import type { RouterState } from '../router/routerReducer'
 
 type NullActionType = 'null'
 

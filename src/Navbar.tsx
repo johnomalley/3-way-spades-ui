@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { Suit } from './common/commonTypes'
 import SuitSymbol from './common/SuitSymbol'
-import type { State } from './store/storeTypes'
-import { useAppSelector } from './store/createStore'
+import { createAppSelector, useAppSelector } from './store/createStore'
 import { isEmpty } from 'lodash'
 
 type NavbarLinkProps = Readonly<{
@@ -28,20 +27,23 @@ function NavbarLink ({ active, path, disabled, children }: NavbarLinkProps) {
   )
 }
 
-const selectProps = ({ router, setup }: State) => ({
-  currentPath: router.location?.pathname,
-  status: setup.status,
-  credentials: setup.credentials
-})
+const selectProps = createAppSelector(
+  [
+    _ => _.setup.status,
+    _ => _.setup.credentials,
+    _ => _.router.path
+  ],
+(status, credentials, path) => ({ status, credentials, path })
+)
 
 export default function Navbar () {
-  const { currentPath, status, credentials } = useAppSelector(selectProps)
+  const { status, credentials, path } = useAppSelector(selectProps)
   const isNavDisabled = status === 'invalid' || isEmpty(credentials.apiKey) || isEmpty(credentials.playerId)
   return (
     <nav className='navbar is-light' role='navigation' aria-label='main navigation'>
       <div className='navbar-brand'>
         <NavbarLink
-          active={currentPath === '/games'}
+          active={path === '/games'}
           path='/games'
           disabled={isNavDisabled}
         >
@@ -50,7 +52,7 @@ export default function Navbar () {
           Home
         </NavbarLink>
         <NavbarLink
-          active={currentPath === '/setup'}
+          active={path === '/setup'}
           path='/setup'
           disabled={isNavDisabled}
         >

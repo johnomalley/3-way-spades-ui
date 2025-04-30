@@ -3,18 +3,24 @@ import { type Game } from './gameListReducer'
 import GameListRow from './GameListRow'
 import { useDispatch } from 'react-redux'
 import { gameListClearDeletedGame, gameListNew } from './gameListActions'
-import { useAppSelector } from '../store/createStore'
-import { type State } from '../store/storeTypes'
+import { createAppSelector, useAppSelector } from '../store/createStore'
 
 type Props = Readonly<{
   games: readonly Game[]
 }>
 
-const selectProps = ({ gameList, setup }: State) => ({
-  deleteGameId: gameList.deleteGameId,
-  playerId: setup.credentials.playerId,
-  players: setup.players
-})
+const selectProps = createAppSelector(
+  [
+    _ => _.gameList.deleteGameId,
+    _ => _.setup.credentials.playerId,
+    _ => _.setup.players
+  ],
+  (deleteGameId, playerId, players) => ({
+    deleteGameId,
+    playerId,
+    players
+  })
+)
 
 const newGameDelay = 300
 

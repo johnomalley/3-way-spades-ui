@@ -1,17 +1,24 @@
 import React, { useCallback, useEffect } from 'react'
-import { type State } from '../store/storeTypes'
-import { useAppSelector } from '../store/createStore'
+import { createAppSelector, useAppSelector } from '../store/createStore'
 import { useDispatch } from 'react-redux'
 import { credentialsCancelEdit, credentialsSave, credentialsUpdate } from './setupActions'
 import { isEqual } from 'lodash'
 import classNames from 'classnames'
 
-const selectProps = ({ setup }: State) => ({
-  credentials: setup.credentials,
-  editedCredentials: setup.editedCredentials,
-  validationMessages: setup.validationMessages,
-  status: setup.status
-})
+const selectProps = createAppSelector(
+  [
+    _ => _.setup.credentials,
+    _ => _.setup.editedCredentials,
+    _ => _.setup.validationMessages,
+    _ => _.setup.status
+  ],
+  (credentials, editedCredentials, validationMessages, status) => ({
+    credentials,
+    editedCredentials,
+    validationMessages,
+    status
+  })
+)
 
 type HelpTextProps = Readonly<{ message?: string }>
 

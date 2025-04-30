@@ -1,7 +1,7 @@
 import { call, put, takeEvery, select, type SelectEffect, type CallEffect, type PutEffect } from 'redux-saga/effects'
 import api from '../api/api'
 import { gameBid, gameError, gameGet, gamePlay, gameShowCards, gameUpdate } from './gameActions'
-import push from '../common/push'
+import { push } from '../router/routerActions'
 import { type Action, type State } from '../store/storeTypes'
 import isNotFound from '../api/isNotFound'
 import { type Card, type PlayerView } from './gameReducer'
@@ -17,7 +17,7 @@ export function * getGame ({ payload }: Action<string>): Generator<SelectEffect 
     yield put({ type: gameUpdate, payload: playerView })
   } catch (error) {
     if (isNotFound(error)) {
-      yield push('/games')
+      yield put(push('/games'))
     } else {
       yield putError(error as Error)
     }

@@ -9,15 +9,16 @@ import gameStatsReducer from '../game-stats/gameStatsReducer'
 import gameReducer from '../game/gameReducer'
 import changePoller from '../game/changePoller'
 import { type TypedUseSelectorHook, useSelector } from 'react-redux'
-import { createReduxHistoryContext } from 'redux-first-history'
+import routerReducer from '../router/routerReducer'
+import { createSelector } from 'reselect'
+
 
 export const useAppSelector: TypedUseSelectorHook<State> = useSelector
 
-export default (history: History) => {
-  const middlewareById = createMiddleware()
-  const { routerMiddleware, routerReducer } = createReduxHistoryContext({ history })
+export const createAppSelector = createSelector.withTypes<State>()
 
-  const middleware = [...Object.values(middlewareById), routerMiddleware]
+export default (history: History) => {
+  const middlewareById = createMiddleware(history)
 
   const rootReducer = combineReducers({
     setup: setupReducer,
@@ -29,10 +30,9 @@ export default (history: History) => {
   })
 
   // https://stackoverflow.com/questions/71944111/redux-createstore-is-deprecated-cannot-get-state-from-getstate-in-redux-ac
-  // seriously the redux team can go f*** themselves
-  // assholes
+  // stupid deprecation
   // noinspection JSDeprecatedSymbols
-  const store = createStore(rootReducer, applyMiddleware(...middleware))
+  const store = createStore(rootReducer, applyMiddleware(...Object.values(middlewareById)))
 
   changePoller.init({
     dispatch: store.dispatch,

@@ -20,8 +20,8 @@ export default function GameListRow ({ game, players, deleteGameId, playerId }: 
       <tr>
         <td>
           <Link to={`/games/${game.id}`}>
-            <i className='fas fa-caret-right mr-2' />
             {DateTime.fromISO(game.startTime).toRelative()}
+            <i className='fa-solid fa-arrow-right ml-2'/>
           </Link>
         </td>
         <td>

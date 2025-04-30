@@ -1,24 +1,33 @@
 import React, { useEffect } from 'react'
 import GameList from './game-list/GameList'
 import { useDispatch } from 'react-redux'
-import { type State } from './store/storeTypes'
 import { gameListGet } from './game-list/gameListActions'
 import WaitSpinner from './common/WaitSpinner'
 import { gameStatsGet } from './game-stats/gameStatsActions'
 import RecentGames from './game-stats/RecentGames'
-import { useAppSelector } from './store/createStore'
+import { createAppSelector, useAppSelector } from './store/createStore'
 import ErrorOverlay from './common/ErrorOverlay'
 import LeaderBoard from './game-stats/LeaderBoard'
-import { push } from 'redux-first-history'
+import { push } from './router/routerActions'
 
-export const selectProps = ({ setup, gameList, gameStats }: State) => ({
-  games: gameList.games,
-  busy: Boolean(gameList.busy || !gameStats.summary),
-  error: gameList.error ?? gameStats.error,
-  summary: gameStats.summary,
-  setupStatus: setup.status,
-  players: setup.players
-})
+export const selectProps = createAppSelector(
+  [
+    _ => _.gameList.games,
+    _ => _.gameList.busy || !_.gameStats.summary,
+    _ => _.gameList.error ?? _.gameStats.error,
+    _ => _.gameStats.summary,
+    _ => _.setup.status,
+    _ => _.setup.players
+  ],
+  (games, busy, error, summary, setupStatus, players) => ({
+    games,
+    busy,
+    error,
+    summary,
+    setupStatus,
+    players
+  })
+)
 
 export default function HomePage () {
   const {

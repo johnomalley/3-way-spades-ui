@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { type State } from '../store/storeTypes'
+
 import { gameGet } from './gameActions'
 import { type PlayerView } from './gameReducer'
 import WaitSpinner from '../common/WaitSpinner'
@@ -9,18 +9,28 @@ import OpponentView, { type OpponentViewProps } from './OpponentView'
 import PlayArea from './PlayArea'
 import changePoller from './changePoller'
 import range from 'lodash/range'
-import { useAppSelector } from '../store/createStore'
-import { push } from 'redux-first-history'
+import { createAppSelector, useAppSelector } from '../store/createStore'
 import { useMatch } from 'react-router-dom'
+import { replace } from '../router/routerActions'
 
-const selectProps = ({ setup, game }: State) => ({
-  setupStatus: setup.status,
-  playerView: game.playerView,
-  busy: game.busy,
-  selectedCard: game.selectedCard,
-  bidRange: game.bidRange,
-  bid: game.bid
-})
+const selectProps = createAppSelector(
+  [
+    _ => _.setup.status,
+    _ => _.game.playerView,
+    _ => _.game.busy,
+    _ => _.game.selectedCard,
+    _ => _.game.bidRange,
+    _ => _.game.bid
+  ],
+  (setupStatus, playerView, busy, selectedCard, bidRange, bid ) => ({
+    setupStatus,
+    playerView,
+    busy,
+    selectedCard,
+    bidRange,
+    bid
+  })
+)
 
 const getOpponentProps = (playerView?: PlayerView): readonly OpponentViewProps[] => {
   if (playerView) {
@@ -50,7 +60,7 @@ export default function GamePage () {
 
   useEffect(() => {
     if (setupStatus === 'invalid' || !gameId) {
-      dispatch(push('/setup'))
+      dispatch(replace('/setup'))
     } else if (setupStatus === 'initialized') {
       dispatch({ type: gameGet, payload: gameId })
       changePoller.start()

@@ -16,6 +16,7 @@ export default tseslint.config(
     files: ['**/*'],
     rules: {
       '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/consistent-type-imports': 'error',
       '@stylistic/semi': ['error', 'never'],
       'no-console': 'error',
       '@stylistic/object-curly-spacing': ["error", "always"]
