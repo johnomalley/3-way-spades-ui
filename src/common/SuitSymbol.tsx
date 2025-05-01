@@ -8,11 +8,12 @@ const classes = ['diamonds', 'clubs', 'hearts', 'spades'] as const
 
 type Props = Readonly<{
   suit: Suit
+  className?: string
 }>
 
-export default function SuitSymbol ({ suit }: Props) {
+export default function SuitSymbol ({ suit, className }: Props) {
   return (
-    <span className={classNames('suit-icon', classes[suit])}>
+    <span className={classNames('suit-icon', classes[suit], className)}>
       {characters[suit]}
     </span>
   )

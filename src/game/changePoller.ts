@@ -73,9 +73,11 @@ const poll = async () => {
 }
 
 const pollNext = () => {
-  updatePollerState({
-    timeout: window.setTimeout(poll, getCurrentDelay())
-  })
+  if (pollerState.running) {
+    updatePollerState({
+      timeout: window.setTimeout(poll, getCurrentDelay())
+    })
+  }
 }
 
 const start = () => {
