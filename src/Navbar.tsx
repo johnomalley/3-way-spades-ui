@@ -1,10 +1,11 @@
-import React, { type ReactNode, type MouseEvent, useMemo } from 'react'
+import React, { type ReactNode, type MouseEvent, useMemo, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { Suit } from './common/commonTypes'
 import SuitSymbol from './common/SuitSymbol'
 import { createAppSelector, useAppSelector } from './store/createStore'
 import { isEmpty } from 'lodash'
+import UserModal from './setup/UserModal'
 
 type NavbarLinkProps = Readonly<{
   active: boolean
@@ -46,6 +47,15 @@ export default function Navbar () {
   const { status, credentials, players, path } = useAppSelector(selectProps)
   const isNavDisabled = status === 'invalid' || isEmpty(credentials.apiKey) || isEmpty(credentials.playerId)
 
+  const [userModalOpen, setUserModalOpen] = useState(false)
+
+  const onOpenUserModal = useCallback(() => {
+    setUserModalOpen(true)
+  }, [setUserModalOpen])
+
+  const onCloseUserModal = useCallback(() => {
+    setUserModalOpen(false)
+  }, [setUserModalOpen])
 
   const player = useMemo(() => players[credentials.playerId], [players, credentials])
 
@@ -71,9 +81,16 @@ export default function Navbar () {
       </div>
       {
         player && (
-          <div className='navbar-end navbar-item'>
-            <i className='fa-solid fa-circle-user'></i>
-            {player.displayName}
+          <div className='navbar-end'>
+            <div className='navbar-item'>
+              <div className='buttons'>
+                <a className='button is-light' onClick={onOpenUserModal}>
+                  <i className='fa-solid fa-circle-user mr-2'></i>
+                  <span>{player.displayName}</span>
+                </a>
+              </div>
+            </div>
+            <UserModal open={userModalOpen} onClose={onCloseUserModal} />
           </div>
         )
       }
