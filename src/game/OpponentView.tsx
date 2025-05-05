@@ -9,11 +9,12 @@ export type OpponentViewProps = Readonly<{
 }>
 
 export default function OpponentView ({ playerView, playerNumber }: OpponentViewProps) {
+  const active = playerNumber === playerView.currentPlayerNumber
   return (
     <div className='column is-half opponent'>
       <div className='card'>
-        <PlayerHeader playerView={playerView} playerNumber={playerNumber} />
-        <OpponentCardsView playerView={playerView} playerNumber={playerNumber} />
+        <PlayerHeader playerView={playerView} playerNumber={playerNumber} active={active} />
+        <OpponentCardsView playerView={playerView} playerNumber={playerNumber} active={active} />
       </div>
     </div>
   )

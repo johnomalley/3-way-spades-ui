@@ -2,21 +2,24 @@ import React, { useCallback, useEffect } from 'react'
 import { createAppSelector, useAppSelector } from '../store/createStore'
 import { useDispatch } from 'react-redux'
 import { credentialsCancelEdit, credentialsSave, credentialsUpdate } from './setupActions'
-import { isEqual } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 import classNames from 'classnames'
+import { push } from '../router/routerActions'
 
 const selectProps = createAppSelector(
   [
     _ => _.setup.credentials,
     _ => _.setup.editedCredentials,
     _ => _.setup.validationMessages,
-    _ => _.setup.status
+    _ => _.setup.status,
+    _ => _.setup.players
   ],
-  (credentials, editedCredentials, validationMessages, status) => ({
+  (credentials, editedCredentials, validationMessages, status, players) => ({
     credentials,
     editedCredentials,
     validationMessages,
-    status
+    status,
+    players
   })
 )
 
@@ -33,9 +36,12 @@ function HelpText ({ message }: HelpTextProps) {
 export default function SetupForm () {
   const dispatch = useDispatch()
 
-  const { credentials, editedCredentials, validationMessages, status } = useAppSelector(selectProps)
+  const { credentials, editedCredentials, validationMessages, status, players } = useAppSelector(selectProps)
+
+  const [submitted, setSubmitted] = React.useState(false)
 
   const onChange = useCallback((field: 'apiKey' | 'playerId', rawValue: string) => {
+    setSubmitted(false)
     let value = rawValue.trim()
     if (field === 'playerId') {
       value = value.toLowerCase()
@@ -43,7 +49,8 @@ export default function SetupForm () {
     dispatch({ type: credentialsUpdate, payload: { ...editedCredentials, [field]: value } })
   }, [dispatch, editedCredentials])
 
-  const onSave = useCallback(() => {
+  const onSubmit = useCallback(() => {
+    setSubmitted(true)
     dispatch({ type: credentialsSave })
   }, [dispatch])
 
@@ -53,6 +60,12 @@ export default function SetupForm () {
 
   useEffect(() => onCancel, [onCancel])
 
+  useEffect(() => {
+    if (submitted && !isEmpty(players)) {
+      dispatch(push('/games'))
+    }
+  }, [submitted, players, dispatch])
+
   const isChanged = !isEqual(credentials, editedCredentials)
 
   const submitEnabled = isChanged && status === 'valid'
@@ -61,22 +74,6 @@ export default function SetupForm () {
     <div className='card'>
       <div className='card-content'>
         <div className='field'>
-          <label className='label'>API Key</label>
-          <div className='control'>
-            <input
-              className='input'
-              autoCapitalize='off'
-              autoCorrect='off'
-              autoComplete='off'
-              type='text'
-              readOnly={status === 'initPending'}
-              value={editedCredentials.apiKey}
-              onChange={e => onChange('apiKey', e.target.value)}
-            />
-          </div>
-          <HelpText message={validationMessages.apiKey} />
-        </div>
-        <div className='field mt-2'>
           <label className='label'>Player ID</label>
           <div className='control'>
             <input
@@ -92,14 +89,30 @@ export default function SetupForm () {
           </div>
           <HelpText message={validationMessages.playerId} />
         </div>
+        <div className='field mt-2'>
+          <label className='label'>Key</label>
+          <div className='control'>
+            <input
+              className='input'
+              autoCapitalize='off'
+              autoCorrect='off'
+              autoComplete='off'
+              type='text'
+              readOnly={status === 'initPending'}
+              value={editedCredentials.apiKey}
+              onChange={e => onChange('apiKey', e.target.value)}
+            />
+          </div>
+          <HelpText message={validationMessages.apiKey} />
+        </div>
         <div className='field is-grouped mt-2'>
           <div className='control'>
             <button
               disabled={!submitEnabled}
               className='button is-primary mr-2'
-              onClick={onSave}
+              onClick={onSubmit}
             >
-              Save
+              Submit
             </button>
             <button
               disabled={!isChanged}

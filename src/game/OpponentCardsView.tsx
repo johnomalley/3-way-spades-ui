@@ -2,10 +2,12 @@ import React from 'react'
 import { HandPhase, type PlayerView } from './gameReducer'
 import last from 'lodash/last'
 import range from 'lodash/range'
+import classNames from 'classnames'
 
 export type Props = Readonly<{
   playerView: PlayerView
   playerNumber: number
+  active: boolean
 }>
 
 const getCardCount = (playerView: PlayerView, playerNumber: number) => {
@@ -20,10 +22,10 @@ const getCardCount = (playerView: PlayerView, playerNumber: number) => {
   }
 }
 
-export default function OpponentCardsView ({ playerView, playerNumber }: Props) {
+export default function OpponentCardsView ({ playerView, playerNumber, active }: Props) {
   const cardCount = getCardCount(playerView, playerNumber)
   return (
-    <div className='card-content'>
+    <div className={classNames('card-content', { active })}>
       {
         cardCount === 0
           ? <div className='playing-card invisible' />

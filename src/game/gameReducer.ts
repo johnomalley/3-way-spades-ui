@@ -53,6 +53,7 @@ export type PlayerView = Readonly<{
   cardsPlayed: readonly Card[]
   cardsPlayable: readonly Card[]
   tricks: readonly Trick[]
+  lastTrick?: Trick
 }>
 
 export type BidRange = Readonly<{
@@ -89,7 +90,7 @@ const scrollBidRange = ({ min, max }: BidRange, delta: number) => ({
 const addCardToTrick = (playerView: PlayerView, card: Card): PlayerView => {
   const { tricks } = playerView
   const lastTrick = last(tricks)
-  if (lastTrick && lastTrick.cards.length < 3) {
+  if (lastTrick && lastTrick.cards.length < playerView.players.length) {
     const cards = [...lastTrick.cards, card]
     return {
       ...playerView,

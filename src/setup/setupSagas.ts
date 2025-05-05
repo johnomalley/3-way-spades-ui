@@ -40,7 +40,7 @@ const selectCredentials = (state: State): Credentials => state.setup.credentials
 
 export function * getPlayers (): Generator<SelectEffect | CallEffect | PutEffect, void, Credentials | Player[]> {
   const credentials = (yield select(selectCredentials)) as Credentials
-  api.setApiKey(credentials.apiKey)
+  api.setCredentials(credentials)
   try {
     const players = (yield call(api.get, 'players')) as Player[]
     yield put({ type: playersUpdate, payload: players })

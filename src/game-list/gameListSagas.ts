@@ -1,9 +1,8 @@
-import type { CallEffect, PutEffect, SelectEffect } from 'redux-saga/effects'
-import { call, put, select, takeEvery } from 'redux-saga/effects'
+import type { CallEffect, PutEffect } from 'redux-saga/effects'
+import { call, put, takeEvery } from 'redux-saga/effects'
 import api from '../api/api'
 import { gameListClearDeletedGame, gameListConfirmDelete, gameListError, gameListGet, gameListNew, gameListUpdate } from './gameListActions'
 import type { Action } from '../store/storeTypes'
-import selectPlayer from '../setup/selectPlayer'
 import type { Player } from '../setup/setupReducer'
 import { push } from '../router/routerActions'
 
@@ -18,21 +17,19 @@ export function * getGames (): Generator<CallEffect | PutEffect> {
   }
 }
 
-export function * newGame (): Generator<SelectEffect | CallEffect | PutEffect, void, { id: string }> {
-  const player = yield select(selectPlayer)
+export function * newGame (): Generator<CallEffect | PutEffect, void, { id: string }> {
   try {
-    const { id } = yield call(api.post, 'new', { creator: player.id })
+    const { id } = yield call(api.post, 'new', {})
     yield put(push(`/games/${id}`))
   } catch (error) {
     yield putError(error as Error)
   }
 }
 
-export function * confirmDeleteGame ({ payload }: Action<string>): Generator<SelectEffect | PutEffect | CallEffect, void, Player > {
-  const player = yield select(selectPlayer)
+export function * confirmDeleteGame ({ payload }: Action<string>): Generator<PutEffect | CallEffect, void, Player > {
   yield put({ type: gameListClearDeletedGame })
   try {
-    yield call(api.delete, `game/${payload}/player/${player.id}`)
+    yield call(api.delete, `game/${payload}`)
     yield put({ type: gameListGet })
   } catch (error) {
     yield putError(error as Error)

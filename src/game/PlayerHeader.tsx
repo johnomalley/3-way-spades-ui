@@ -9,11 +9,12 @@ import selectPlayersById from '../setup/selectPlayersById'
 
 type Props = Readonly<{
   playerView: PlayerView
-  busy?: boolean
   playerNumber: number
+  active: boolean
+  busy?: boolean
 }>
 
-export default function PlayerHeader ({ playerView, busy, playerNumber }: Props) {
+export default function PlayerHeader ({ playerView, playerNumber, active, busy }: Props) {
   const playersById = useAppSelector(selectPlayersById)
   const player = playerView.players[playerNumber]
   const playerName = playersById[player.id].displayName
@@ -51,7 +52,7 @@ export default function PlayerHeader ({ playerView, busy, playerNumber }: Props)
     }
   }
 
-  const headerClass = classNames('card-header', 'player-summary', { active: playerView.currentPlayerNumber === playerNumber })
+  const headerClass = classNames('card-header', 'player-summary', { active })
 
   return (
     <div className={headerClass}>

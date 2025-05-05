@@ -1,53 +1,53 @@
 import React from 'react'
-import { type Card as CardType, type PlayerViewPlayer, type Trick } from './gameReducer'
 import { Suit } from '../common/commonTypes'
 import Card from './Card'
 import classNames from 'classnames'
-import { useAppSelector } from '../store/createStore'
-import selectPlayersById from '../setup/selectPlayersById'
+import { createAppSelector, useAppSelector } from '../store/createStore'
+import { type Trick } from './gameReducer'
 
-type Props = Readonly<{
-  players: readonly PlayerViewPlayer[]
-  tricks: readonly Trick[]
-}>
-
-type LastTrickCard = CardType & Readonly<{
-  playerInitial: string
-  winner: boolean
-}>
-
-const hiddenCards: readonly LastTrickCard[] = [0, 1, 2].map(i => ({
-  playerInitial: String(i),
-  winner: false,
-  suit: Suit.Clubs,
-  rank: 2
-}))
-
-const getLastTrickCards = ({ players, tricks }: Props): readonly LastTrickCard[] => {
-  const playersById = useAppSelector(selectPlayersById)
-  if (tricks.length < 2) {
-    return hiddenCards
-  } else {
-    const { cards, leader, winner } = tricks[tricks.length - 2]
-    return cards.map((c, i) => {
-      const playerNumber = (leader + i) % cards.length
-      return {
-        ...c,
-        playerInitial: playersById[players[playerNumber].id].displayName[0],
-        visible: true,
-        winner: playerNumber === winner
-      }
-    })
-  }
+const dummyTrick: Trick = {
+  winner: 0,
+  leader: 0,
+  cards: [2, 3, 4].map(rank => ({
+    rank,
+    suit: Suit.Clubs
+  }))
 }
 
-export default function LastTrick (props: Props) {
+const selectProps = createAppSelector(
+  [
+    _ => _.game.playerView?.players,
+    _ => _.setup.players,
+    _ => _.game.playerView?.lastTrick
+  ],
+  (players, playersById, lastTrick) => ({
+    players: players ?? [],
+    playersById,
+    lastTrick
+  })
+)
+
+export default function LastTrick () {
+  const {
+    players,
+    playersById,
+    lastTrick
+  } = useAppSelector(selectProps)
+
+  const trick: Trick = lastTrick ?? dummyTrick
+
   return (
-    <div className={classNames('last-trick', { 'is-invisible': props.tricks.length < 2 })}>
+    <div className={classNames('last-trick', { 'is-invisible': !lastTrick })}>
       {
-        getLastTrickCards(props).map((card: LastTrickCard) => (
-          <Card key={card.playerInitial} card={card} playerInitial={card.playerInitial} winner={card.winner} />
-        ))
+        trick.cards.map((card, i) => {
+          const playerNumber = (trick.leader + i) % players.length
+          const player = players[playerNumber]
+          const { displayName } = playersById[player.id]
+
+          return (
+            <Card key={player.id} card={card} playerInitial={displayName.slice(0, 1)} winner={trick.winner === playerNumber}/>
+          )
+        })
       }
     </div>
   )

@@ -2,6 +2,7 @@ import { type Dispatch } from 'redux'
 import { type State } from '../store/storeTypes'
 import api from '../api/api'
 import { gameUpdate } from './gameActions'
+import { type PlayerView } from './gameReducer'
 
 type Config = Readonly<{
   dispatch: Dispatch
@@ -52,10 +53,10 @@ const getCurrentDelay = () => {
 
 const poll = async () => {
   try {
-    const { setup: { credentials: { playerId } }, game: { playerView } } = config.getState()
+    const { game: { playerView } } = config.getState()
     if (playerView) {
       const { gameId, timestamp } = playerView
-      const { update } = await api.get(`poll/${gameId}/${playerId}/${timestamp}`)
+      const { update } = (await api.get(`poll/${gameId}/${timestamp}`)) as { update?: PlayerView }
       if (update) {
         config.dispatch({ type: gameUpdate, payload: update })
         updatePollerState({ ticks: 0 })

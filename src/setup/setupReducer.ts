@@ -131,7 +131,7 @@ export default (state: SetupState = initialState, action: Action<unknown> = null
         ...state,
         status: 'invalid',
         validationMessages: {
-          playerId: `Failed to get players: ${(action.payload as Error).message}`
+          apiKey: `Unable to log in. You may not have the correct key for player ID '${state.credentials.playerId}'.`
         }
       }
     default:

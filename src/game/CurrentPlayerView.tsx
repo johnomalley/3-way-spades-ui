@@ -5,6 +5,7 @@ import Hand from './Hand'
 import { gamePlay } from './gameActions'
 import PlayerHeader from './PlayerHeader'
 import BidButtons from './BidButtons'
+import classNames from 'classnames'
 
 type Props = Readonly<{
   playerView: PlayerView
@@ -46,11 +47,13 @@ export default function CurrentPlayerView ({ playerView, busy, bidRange, bid, se
       : {}
   }
 
+  const active = playerView.playerNumber === playerView.currentPlayerNumber
+
   return (
     <div className='column is-half current-player'>
       <div className='card'>
-        <PlayerHeader playerView={playerView} busy={busy} playerNumber={playerView.playerNumber} />
-        <div className='card-content'>
+        <PlayerHeader playerView={playerView} active={active} playerNumber={playerView.playerNumber} busy={busy} />
+        <div className={classNames('card-content', { active })}>
           <Hand playerView={playerView} selectedCard={selectedCard} playCard={playCard} dispatch={dispatch} />
           <div className='buttons'>
             {

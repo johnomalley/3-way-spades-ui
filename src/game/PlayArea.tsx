@@ -40,7 +40,7 @@ export default function PlayArea ({ playerView }: Props) {
     <div className='column is-half play-area'>
       <div className='card'>
         <div className='card-content'>
-          <LastTrick players={players} tricks={tricks} />
+          <LastTrick />
           <div className='level current-player-area'>
             <PlayAreaCard
               lead={playerNumber === leader}

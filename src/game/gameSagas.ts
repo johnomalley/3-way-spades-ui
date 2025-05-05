@@ -5,15 +5,13 @@ import { push } from '../router/routerActions'
 import { type Action, type State } from '../store/storeTypes'
 import isNotFound from '../api/isNotFound'
 import { type Card, type PlayerView } from './gameReducer'
-import selectPlayer from '../setup/selectPlayer'
 import { type Player } from '../setup/setupReducer'
 
 const putError = (error: Error) => put({ type: gameError, payload: error })
 
-export function * getGame ({ payload }: Action<string>): Generator<SelectEffect | CallEffect | PutEffect, void, Player | PlayerView> {
+export function * getGame ({ payload }: Action<string>): Generator<CallEffect | PutEffect, void, Player | PlayerView> {
   try {
-    const player = yield select(selectPlayer)
-    const playerView = yield call(api.get, `game/${payload}/player/${(player as Player).id}`)
+    const playerView = yield call(api.get, `game/${payload}`)
     yield put({ type: gameUpdate, payload: playerView })
   } catch (error) {
     if (isNotFound(error)) {
@@ -24,8 +22,7 @@ export function * getGame ({ payload }: Action<string>): Generator<SelectEffect 
   }
 }
 
-const getGamePath = ({ game, setup: { credentials: { playerId } } }: State) =>
-  `game/${game.playerView!.gameId}/player/${playerId}`
+const getGamePath = ({ game }: State) => `game/${game.playerView!.gameId}`
 
 type PostArgs = Readonly<{
   path: string

@@ -102,6 +102,14 @@
   }
 }
 
+.current-player, .opponent {
+  .card-content {
+    &.active {
+      background-color: darken($info, 50%);
+    }
+  }
+}
+
 .playing-card {
   user-select: none;
   -webkit-user-select: none;
@@ -168,7 +176,7 @@
 
 .play-area {
   .last-trick {
-    opacity: 0.6;
+    opacity: 0.8;
   }
   .play-area-card {
     &.lead {
